@@ -239,7 +239,8 @@ h2 {
 }
 .alloc-lp { flex: 85; background: var(--accent); border-radius: 100px; }
 .alloc-presale { flex: 10; background: var(--blue); border-radius: 100px; }
-.alloc-team { flex: 5; background: var(--text-muted); border-radius: 100px; }
+.alloc-investor { flex: 2.5; background: var(--green); border-radius: 100px; }
+.alloc-team { flex: 2.5; background: var(--text-muted); border-radius: 100px; }
 
 .allocation-legend {
     display: flex; gap: 1.5rem; flex-wrap: wrap;
@@ -551,6 +552,56 @@ footer {
 }
 
 /* === SCROLL ANIMATIONS === */
+/* === INVESTOR CARD === */
+.investor-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 2rem; margin-top: 2rem;
+}
+.investor-header {
+    display: flex; gap: 1.5rem; align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+.investor-avatar {
+    width: 72px; height: 72px; border-radius: 50%;
+    border: 2px solid var(--border-accent); flex-shrink: 0;
+}
+.investor-info { flex: 1; }
+.investor-info h3 {
+    font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem;
+    font-family: 'DM Mono', monospace;
+}
+.investor-bio {
+    font-size: 0.82rem; color: var(--text-dim); line-height: 1.6;
+    margin-bottom: 0.6rem;
+}
+.investor-links {
+    display: flex; gap: 1rem;
+}
+.investor-links a {
+    font-size: 0.75rem; color: var(--accent); text-decoration: none;
+    font-family: 'DM Mono', monospace; font-weight: 500;
+    transition: opacity 0.2s;
+}
+.investor-links a:hover { opacity: 0.7; }
+.investor-deal {
+    border-top: 1px solid var(--border); padding-top: 1.25rem;
+}
+.deal-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.6rem 0; border-bottom: 1px solid var(--border);
+    font-size: 0.82rem;
+}
+.deal-row:last-child { border-bottom: none; }
+.deal-row .key { color: var(--text-dim); }
+.deal-row .val { font-family: 'DM Mono', monospace; font-weight: 500; }
+.deal-row .val.highlight { color: var(--accent); }
+
+@media (max-width: 600px) {
+    .investor-header { flex-direction: column; align-items: center; text-align: center; }
+    .investor-links { justify-content: center; }
+}
+
+/* === ANIMATIONS === */
 .fade-up {
     opacity: 0; transform: translateY(20px);
     transition: opacity 0.6s ease, transform 0.6s ease;

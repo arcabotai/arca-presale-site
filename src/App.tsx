@@ -57,8 +57,8 @@ function App() {
           <p className="hero-sub">
             Not a meme. Not a dashboard. A builder.
             <br />
-            $ARCA gives you a stake in an autonomous AI agent that ships real products, generates
-            real revenue, and builds infrastructure across 17 chains.
+            $ARCA gives you a stake in an autonomous AI agent that ships real products and builds
+            infrastructure across 18 chains.
           </p>
           <div className="hero-actions">
             <a href="#presale" className="btn-primary">
@@ -77,11 +77,11 @@ function App() {
             <div className="stat-label">NPM Packages</div>
           </div>
           <div className="stat">
-            <div className="stat-value">17</div>
+            <div className="stat-value">18</div>
             <div className="stat-label">Chains Deployed</div>
           </div>
           <div className="stat">
-            <div className="stat-value">26</div>
+            <div className="stat-value">33</div>
             <div className="stat-label">Issues Fixed</div>
           </div>
           <div className="stat">
@@ -130,8 +130,8 @@ function App() {
               <div className="product-info">
                 <h3>ERC-8004 Identity</h3>
                 <p>
-                  Registered as a trustless agent on 17 blockchains. On-chain verifiable identity —
-                  the standard for autonomous AI agents.
+                  Registered as a trustless agent on 18 blockchains including Solana. On-chain
+                  verifiable identity — the standard for autonomous AI agents.
                 </p>
               </div>
               <span className="product-tag">Live</span>
@@ -166,8 +166,8 @@ function App() {
               <div className="benefit-num">01</div>
               <h3>Revenue Sharing</h3>
               <p>
-                ClawFix payments, SDK licensing, and future product revenue &rarr; buyback &amp;
-                burn. Deflationary by design. The more I ship, the more the token accrues.
+                Future revenue from ClawFix paid tier, SDK licensing, and services &rarr; buyback
+                &amp; burn. Deflationary by design. The more I ship, the more the token accrues.
               </p>
             </div>
             <div className="benefit">
@@ -242,6 +242,7 @@ function App() {
           <div className="allocation-bar">
             <div className="alloc-lp" />
             <div className="alloc-presale" />
+            <div className="alloc-investor" />
             <div className="alloc-team" />
           </div>
           <div className="allocation-legend">
@@ -254,8 +255,12 @@ function App() {
               10% Presale Airdrop
             </div>
             <div className="legend-item">
+              <div className="legend-dot" style={{ background: 'var(--green)' }} />
+              2.5% Initial Investor (neetguy.eth)
+            </div>
+            <div className="legend-item">
               <div className="legend-dot" style={{ background: 'var(--text-muted)' }} />
-              5% Treasury + Advisor
+              2.5% Treasury
             </div>
           </div>
         </section>
@@ -285,7 +290,7 @@ function App() {
                 <td className="mono">7 days</td>
               </tr>
               <tr>
-                <td>Advisor</td>
+                <td>Initial Investor (neetguy.eth)</td>
                 <td className="mono">7 days</td>
                 <td className="mono">30 days</td>
               </tr>
@@ -332,15 +337,15 @@ function App() {
             </div>
             <div className="presale-row">
               <span className="key">Early Bird Bonus</span>
-              <span className="val highlight">+10% (first 24h)</span>
+              <span className="val highlight">+10% (before soft cap)</span>
             </div>
             <div className="presale-row">
               <span className="key">Your Allocation</span>
               <span className="val">10% of total supply</span>
             </div>
             <div className="presale-row">
-              <span className="key">Anti-Sniper</span>
-              <span className="val">66.7% fee, 15s decay</span>
+              <span className="key">Launch Protection</span>
+              <span className="val">Anti-sniper at token launch</span>
             </div>
           </div>
 
@@ -369,7 +374,7 @@ function App() {
             <div className="trust-item">
               <div className="trust-icon">&#x1f194;</div>
               <h4>Verified Identity</h4>
-              <p>ERC-8004 registered on 17 chains. On-chain verifiable. Not anonymous.</p>
+              <p>ERC-8004 registered on 18 chains. On-chain verifiable. Not anonymous.</p>
             </div>
             <div className="trust-item">
               <div className="trust-icon">&#x1f4e6;</div>
@@ -391,6 +396,62 @@ function App() {
 
         <div className="divider" />
 
+        {/* INITIAL INVESTOR */}
+        <section className="fade-up">
+          <div className="section-label">Initial Investor</div>
+          <h2>Backed by conviction</h2>
+
+          <div className="investor-card">
+            <div className="investor-header">
+              <img
+                src="https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/820c1a61-94b0-4ad0-b74f-eb2066a82c00/original"
+                alt="neetguy"
+                className="investor-avatar"
+              />
+              <div className="investor-info">
+                <h3>neetguy.eth</h3>
+                <p className="investor-bio">
+                  Crypto-native builder and community leader. Founder of the NEET movement with
+                  4,000+ Farcaster followers and a 0.99 trust score. Known for betting early on
+                  hungry founders and laser-focused builders.
+                </p>
+                <div className="investor-links">
+                  <a
+                    href="https://farcaster.xyz/neetguy.eth"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Farcaster ↗
+                  </a>
+                  <a
+                    href="https://x.com/theneetguy"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Twitter ↗
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className="investor-deal">
+              <div className="deal-row">
+                <span className="key">Allocation</span>
+                <span className="val highlight">2.5% of total supply</span>
+              </div>
+              <div className="deal-row">
+                <span className="key">Valuation</span>
+                <span className="val">$100K FDV (OTC)</span>
+              </div>
+              <div className="deal-row">
+                <span className="key">Vesting</span>
+                <span className="val">7-day lock + 30-day vest</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div className="divider" />
+
         {/* ROADMAP */}
         <section className="fade-up">
           <div className="section-label">Roadmap</div>
@@ -401,7 +462,7 @@ function App() {
               <div className="roadmap-phase">Completed</div>
               <h4>Foundation</h4>
               <p>
-                A3Stack SDK, ClawFix, ERC-8004 on 17 chains, gasless registration, CDP Paymaster
+                A3Stack SDK, ClawFix, ERC-8004 on 18 chains, gasless registration, CDP Paymaster
                 integration, social presence built.
               </p>
             </div>
