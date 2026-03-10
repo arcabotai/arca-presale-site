@@ -1,5 +1,4 @@
-// TODO: Replace with actual deployed contract address
-export const PRESALE_CONTRACT_ADDRESS = '0x0000000000000000000000000000000000000000' as const
+export const PRESALE_CONTRACT_ADDRESS = '0x5c8E7c4e9Eb8A417B67AB9C2837Ab9b5E2EF98C2' as const
 
 export const HARD_CAP_ETH = 12.5
 export const SOFT_CAP_ETH = 5
