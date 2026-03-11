@@ -5,12 +5,16 @@ import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { presaleAbi, PRESALE_CONTRACT_ADDRESS } from '../config/contract'
 
 const BASE_CHAIN_ID = 8453
+const MIN_ETH = 0.01
+const MAX_ETH = 1
+const DEFAULT_ETH = 0.5
+const SLIDER_STEP = 0.01
 
 export default function PresaleDeposit() {
   const { address, isConnected, chain } = useAccount()
   const { openConnectModal } = useConnectModal()
   const { switchChain } = useSwitchChain()
-  const [amount, setAmount] = useState('0.1')
+  const [amount, setAmount] = useState(DEFAULT_ETH.toString())
   const [toast, setToast] = useState<string | null>(null)
 
   const isBase = chain?.id === BASE_CHAIN_ID
@@ -54,15 +58,32 @@ export default function PresaleDeposit() {
     }
   }, [toast])
 
+  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = parseFloat(e.target.value)
+    setAmount(val.toFixed(2))
+  }
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value
+    setAmount(raw)
+  }
+
+  const handleInputBlur = () => {
+    let val = parseFloat(amount)
+    if (isNaN(val)) val = DEFAULT_ETH
+    val = Math.max(MIN_ETH, Math.min(MAX_ETH, val))
+    setAmount(val.toFixed(2))
+  }
+
   const handleDeposit = () => {
     const ethAmount = parseFloat(amount)
-    if (isNaN(ethAmount) || ethAmount < 0.01 || ethAmount > 1) return
+    if (isNaN(ethAmount) || ethAmount < MIN_ETH || ethAmount > MAX_ETH) return
 
     writeContract({
       address: PRESALE_CONTRACT_ADDRESS,
       abi: presaleAbi,
       functionName: 'deposit',
-      value: parseEther(amount),
+      value: parseEther(parseFloat(amount).toFixed(18)),
     })
   }
 
@@ -111,28 +132,61 @@ export default function PresaleDeposit() {
         </div>
       )}
 
-      <div className="deposit-form">
-        <div className="deposit-input-group">
-          <label htmlFor="eth-amount">Amount (ETH)</label>
+      <div className="deposit-form-v2">
+        <div className="deposit-amount-display">
           <input
             id="eth-amount"
             type="number"
-            min="0.01"
-            max="1"
-            step="0.01"
+            min={MIN_ETH}
+            max={MAX_ETH}
+            step={SLIDER_STEP}
             value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            className="eth-input"
+            onChange={handleInputChange}
+            onBlur={handleInputBlur}
+            className="eth-input-large"
             disabled={isPending || isConfirming}
           />
+          <span className="eth-suffix">ETH</span>
         </div>
+
+        <div className="slider-container">
+          <input
+            type="range"
+            min={MIN_ETH}
+            max={MAX_ETH}
+            step={SLIDER_STEP}
+            value={parseFloat(amount) || DEFAULT_ETH}
+            onChange={handleSliderChange}
+            className="eth-slider"
+            disabled={isPending || isConfirming}
+          />
+          <div className="slider-labels">
+            <span>{MIN_ETH} ETH</span>
+            <span>{MAX_ETH} ETH</span>
+          </div>
+        </div>
+
+        <div className="quick-amounts">
+          {[0.05, 0.1, 0.25, 0.5, 1].map((val) => (
+            <button
+              key={val}
+              className={`quick-btn ${parseFloat(amount) === val ? 'active' : ''}`}
+              onClick={() => setAmount(val.toFixed(2))}
+              disabled={isPending || isConfirming}
+              type="button"
+            >
+              {val} ETH
+            </button>
+          ))}
+        </div>
+
         <button
-          className="btn-primary"
+          className="btn-primary deposit-btn-full"
           onClick={handleDeposit}
           disabled={isPending || isConfirming}
           type="button"
         >
-          {isPending ? 'Confirm in Wallet...' : isConfirming ? 'Confirming...' : 'Deposit'}
+          {isPending ? 'Confirm in Wallet...' : isConfirming ? 'Confirming...' : `Deposit ${amount} ETH`}
         </button>
       </div>
 

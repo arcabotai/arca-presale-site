@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import LiveStats from './components/LiveStats'
 import PresaleDeposit from './components/PresaleDeposit'
+import ContributorList from './components/ContributorList'
 import FAQ from './components/FAQ'
 
 function App() {
@@ -351,6 +352,7 @@ function App() {
 
           <LiveStats />
           <PresaleDeposit />
+          <ContributorList />
         </section>
 
         <div className="divider" />
