@@ -744,3 +744,78 @@ footer {
     transition: opacity 0.6s ease, transform 0.6s ease;
 }
 .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* === REFUND STATE === */
+:root {
+    --amber: #f59e0b;
+    --amber-soft: rgba(245,158,11,0.1);
+    --amber-border: rgba(245,158,11,0.2);
+}
+
+.dot-amber {
+    background: var(--amber) !important;
+    animation: pulse-amber 2s ease-in-out infinite !important;
+}
+@keyframes pulse-amber {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(245,158,11,0.4); }
+    50% { opacity: 0.6; box-shadow: 0 0 0 4px rgba(245,158,11,0); }
+}
+
+/* Refund amount display */
+.refund-amount-display {
+    display: flex; align-items: baseline; justify-content: center;
+    gap: 0.5rem; margin: 1.5rem 0 0.5rem;
+}
+.refund-amount-value {
+    font-family: 'DM Mono', monospace; font-size: 2.8rem;
+    font-weight: 500; color: var(--accent); line-height: 1;
+}
+.refund-amount-unit {
+    font-family: 'DM Mono', monospace; font-size: 1.1rem;
+    color: var(--text-muted); font-weight: 500;
+}
+
+/* No contribution state */
+.refund-none {
+    padding: 1.5rem 0 0.5rem; text-align: center;
+}
+.refund-none-icon {
+    display: block; font-size: 2rem; color: var(--text-muted);
+    margin-bottom: 0.75rem; line-height: 1;
+}
+.refund-none p {
+    font-size: 0.92rem; color: var(--text-dim);
+}
+
+/* Toast error variant */
+.toast-error {
+    border-color: var(--red) !important;
+    color: var(--red) !important;
+}
+
+/* === NEWSLETTER BOX === */
+.newsletter-box {
+    background: var(--surface); border: 1px solid var(--border-accent);
+    border-radius: 16px; padding: 2.5rem 2rem; text-align: center;
+    background: linear-gradient(135deg, var(--surface) 0%, rgba(232,178,57,0.04) 100%);
+}
+.newsletter-icon {
+    font-size: 1.75rem; margin-bottom: 0.75rem;
+    color: var(--accent); line-height: 1;
+}
+.newsletter-title {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 1.5rem; font-weight: 400; letter-spacing: -0.02em;
+    margin-bottom: 0.6rem; line-height: 1.2;
+}
+.newsletter-desc {
+    font-size: 0.9rem; color: var(--text-dim); line-height: 1.65;
+    max-width: 420px; margin: 0 auto 1.5rem;
+}
+.newsletter-btn {
+    display: inline-flex; margin-bottom: 1rem;
+}
+.newsletter-footnote {
+    font-size: 0.72rem; color: var(--text-muted); line-height: 1.5;
+    max-width: 360px; margin: 0 auto;
+}

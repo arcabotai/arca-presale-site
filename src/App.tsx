@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import LiveStats from './components/LiveStats'
-import PresaleDeposit from './components/PresaleDeposit'
+import RefundClaim from './components/RefundClaim'
+import NewsletterSignup from './components/NewsletterSignup'
 import ContributorList from './components/ContributorList'
 import FAQ from './components/FAQ'
 
@@ -47,8 +48,8 @@ function App() {
         {/* HERO */}
         <section className="hero">
           <div className="hero-label">
-            <span className="dot" />
-            Presale Live on Base
+            <span className="dot dot-amber" />
+            Presale Ended
           </div>
           <h1>
             The first AI agent
@@ -56,14 +57,15 @@ function App() {
             you can <em>own.</em>
           </h1>
           <p className="hero-sub">
-            Not a meme. Not a dashboard. A builder.
+            The $ARCA presale has ended. We raised 2.032 ETH — just shy of our 5 ETH soft cap.
+            Because the goal wasn't met, all contributors are entitled to a full refund.
             <br />
-            $ARCA gives you a stake in an autonomous AI agent that ships real products and builds
-            infrastructure across 18 chains.
+            <br />
+            No loss. No risk. Claim your ETH below — and stay tuned for round two.
           </p>
           <div className="hero-actions">
-            <a href="#presale" className="btn-primary">
-              Join Presale &rarr;
+            <a href="#refund" className="btn-primary">
+              Claim Your Refund →
             </a>
             <a href="#what-ive-built" className="btn-secondary">
               See What I've Built
@@ -306,53 +308,44 @@ function App() {
 
         <div className="divider" />
 
-        {/* PRESALE */}
-        <section id="presale" className="fade-up">
-          <div className="section-label">Presale</div>
-          <h2>Simple. On-chain. Transparent.</h2>
+        {/* REFUND */}
+        <section id="refund" className="fade-up">
+          <div className="section-label">Refund</div>
+          <h2>Claim your ETH back.</h2>
           <p className="section-desc">
-            Send ETH on Base. Get $ARCA proportional to your contribution after launch. All deposits
-            tracked on-chain. Early bird bonus for first 24 hours.
+            The presale raised 2.032 ETH — below the 5 ETH soft cap. All 26 contributors are
+            entitled to a full refund, on-chain, right now. No middlemen. Just connect and claim.
           </p>
 
           <div className="presale-grid">
             <div className="presale-row">
-              <span className="key">Duration</span>
-              <span className="val">48 hours</span>
+              <span className="key">Total Raised</span>
+              <span className="val highlight">2.032 ETH</span>
             </div>
             <div className="presale-row">
               <span className="key">Soft Cap</span>
-              <span className="val highlight">5 ETH (~$10K)</span>
+              <span className="val">5 ETH</span>
             </div>
             <div className="presale-row">
-              <span className="key">Hard Cap</span>
-              <span className="val">12.5 ETH (~$25K)</span>
+              <span className="key">Contributors</span>
+              <span className="val">26</span>
             </div>
             <div className="presale-row">
-              <span className="key">Min Contribution</span>
-              <span className="val">0.01 ETH</span>
-            </div>
-            <div className="presale-row">
-              <span className="key">Max Contribution</span>
-              <span className="val">1 ETH</span>
-            </div>
-            <div className="presale-row">
-              <span className="key">Early Bird Bonus</span>
-              <span className="val highlight">+10% (before soft cap)</span>
-            </div>
-            <div className="presale-row">
-              <span className="key">Your Allocation</span>
-              <span className="val">10% of total supply</span>
-            </div>
-            <div className="presale-row">
-              <span className="key">Launch Protection</span>
-              <span className="val">Anti-sniper at token launch</span>
+              <span className="key">Status</span>
+              <span className="val" style={{ color: 'var(--amber)' }}>Refunds Live</span>
             </div>
           </div>
 
           <LiveStats />
-          <PresaleDeposit />
+          <RefundClaim />
           <ContributorList />
+        </section>
+
+        <div className="divider" />
+
+        {/* NEWSLETTER */}
+        <section className="fade-up">
+          <NewsletterSignup />
         </section>
 
         <div className="divider" />
@@ -468,11 +461,20 @@ function App() {
                 integration, social presence built.
               </p>
             </div>
+            <div className="roadmap-item done">
+              <div className="roadmap-phase">Completed</div>
+              <h4>Presale Round 1</h4>
+              <p>
+                Soft cap not met — 2.032 ETH raised by 26 contributors. Full refunds live on-chain.
+                Lessons learned. Round 2 in the works.
+              </p>
+            </div>
             <div className="roadmap-item active">
               <div className="roadmap-phase">Now</div>
-              <h4>Token Launch</h4>
+              <h4>Refunds & Reset</h4>
               <p>
-                $ARCA presale, Clanker V4 deployment, community building, holder benefits activation.
+                All contributors can claim full ETH refunds. We're regrouping, improving the
+                launch strategy, and preparing for round 2.
               </p>
             </div>
             <div className="roadmap-item">
@@ -514,16 +516,21 @@ function App() {
         {/* FINAL CTA */}
         <div className="cta-section fade-up">
           <h2>
-            Invest in a builder,
+            Round 2 is coming.
             <br />
-            not a promise.
+            Don't miss it.
           </h2>
           <p>
-            The products are live. The code is open. The identity is on-chain. The only thing missing
-            is you.
+            The products are live. The code is open. The identity is on-chain. We're not stopping —
+            just resetting. Subscribe to get notified the moment round 2 opens.
           </p>
-          <a href="#presale" className="btn-primary">
-            Join the Presale &rarr;
+          <a
+            href="https://paragraph.com/@arcabot"
+            target="_blank"
+            rel="noreferrer"
+            className="btn-primary"
+          >
+            Subscribe for Next Round →
           </a>
         </div>
 
