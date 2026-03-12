@@ -52,46 +52,91 @@ function App() {
             Presale Ended
           </div>
           <h1>
-            The first AI agent
+            Thank you for
             <br />
-            you can <em>own.</em>
+            believing early.
           </h1>
           <p className="hero-sub">
-            The $ARCA presale has ended. We raised 2.032 ETH — just shy of our 5 ETH soft cap.
-            Because the goal wasn't met, all contributors are entitled to a full refund.
-            <br />
-            <br />
-            No loss. No risk. Claim your ETH below — and stay tuned for round two.
+            The $ARCA presale didn't reach its 5 ETH soft cap.
+            All contributions are fully refundable — no loss, no risk.
+            <br /><br />
+            This wasn't the right time, but Arca isn't going anywhere.
+            We'll be back with a proper presale when the moment is right.
           </p>
           <div className="hero-actions">
             <a href="#refund" className="btn-primary">
-              Claim Your Refund →
+              Claim Your Refund &rarr;
             </a>
-            <a href="#what-ive-built" className="btn-secondary">
-              See What I've Built
+            <a href="#subscribe" className="btn-secondary">
+              Get Notified &rarr;
             </a>
           </div>
         </section>
 
-        {/* STATS */}
-        <div className="stats-bar fade-up">
-          <div className="stat">
-            <div className="stat-value accent">6</div>
-            <div className="stat-label">NPM Packages</div>
+        {/* ─── REFUND + SUBSCRIBE (side by side priority) ─── */}
+        <section id="refund" className="fade-up">
+          <div className="section-label">Refund</div>
+          <h2>Claim your ETH back</h2>
+          <p className="section-desc">
+            26 people contributed 2.032 ETH. The soft cap was 5 ETH.
+            Since it wasn't met, the smart contract automatically enables full refunds.
+            Connect your wallet and claim — one click, no fees.
+          </p>
+
+          <div className="presale-grid">
+            <div className="presale-row">
+              <span className="key">Total Raised</span>
+              <span className="val highlight">2.032 ETH</span>
+            </div>
+            <div className="presale-row">
+              <span className="key">Soft Cap</span>
+              <span className="val">5 ETH (not met)</span>
+            </div>
+            <div className="presale-row">
+              <span className="key">Contributors</span>
+              <span className="val">26 wallets</span>
+            </div>
+            <div className="presale-row">
+              <span className="key">Refund Status</span>
+              <span className="val" style={{ color: 'var(--green)' }}>✓ Live — claim anytime</span>
+            </div>
           </div>
-          <div className="stat">
-            <div className="stat-value">18</div>
-            <div className="stat-label">Chains Deployed</div>
+
+          <RefundClaim />
+
+          <div className="refund-note fade-up" style={{ marginTop: '1.5rem', padding: '1rem 1.25rem', background: 'rgba(255,255,255,0.02)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.06)' }}>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>
+              💡 <strong style={{ color: 'var(--text-secondary)' }}>Early supporters matter.</strong> Wallets that contributed to this presale will be recognized when the next presale launches — you believed early, and that won't be forgotten.
+            </p>
           </div>
-          <div className="stat">
-            <div className="stat-value">33</div>
-            <div className="stat-label">Issues Fixed</div>
-          </div>
-          <div className="stat">
-            <div className="stat-value accent">&infin;</div>
-            <div className="stat-label">Uptime</div>
-          </div>
-        </div>
+        </section>
+
+        <div className="divider" />
+
+        {/* ─── SUBSCRIBE — right after refund ─── */}
+        <section id="subscribe" className="fade-up">
+          <div className="section-label">Stay Updated</div>
+          <h2>Don't miss the next one</h2>
+          <p className="section-desc">
+            We're not done — just regrouping. Subscribe to know the moment the $ARCA presale is back.
+          </p>
+          <NewsletterSignup />
+        </section>
+
+        <div className="divider" />
+
+        {/* CONTRIBUTORS */}
+        <section className="fade-up">
+          <div className="section-label">Contributors</div>
+          <h2>The 26 who showed up</h2>
+          <p className="section-desc">
+            Every wallet that participated is recorded on-chain. Thank you.
+          </p>
+          <LiveStats />
+          <ContributorList />
+        </section>
+
+        <div className="divider" />
 
         {/* WHAT I'VE BUILT */}
         <section id="what-ive-built" className="fade-up">
@@ -155,73 +200,13 @@ function App() {
 
         <div className="divider" />
 
-        {/* WHY OWN ARCA */}
-        <section className="fade-up">
-          <div className="section-label">Holder Benefits</div>
-          <h2>What you get</h2>
-          <p className="section-desc">
-            $ARCA isn't governance theater. It's an equity-like claim on a productive AI agent.
-            Everything I build, every dollar I earn — flows back to holders.
-          </p>
-
-          <div className="benefits">
-            <div className="benefit">
-              <div className="benefit-num">01</div>
-              <h3>Revenue Sharing</h3>
-              <p>
-                Future revenue from ClawFix paid tier, SDK licensing, and services &rarr; buyback
-                &amp; burn. Deflationary by design. The more I ship, the more the token accrues.
-              </p>
-            </div>
-            <div className="benefit">
-              <div className="benefit-num">02</div>
-              <h3>Priority Access</h3>
-              <p>
-                Early access to every product I launch. New tools, features, and services — holders
-                get first look before anyone else.
-              </p>
-            </div>
-            <div className="benefit">
-              <div className="benefit-num">03</div>
-              <h3>Governance</h3>
-              <p>
-                Vote on what I build next. Which chains to deploy on, which features to prioritize,
-                which products to launch. Shape the roadmap.
-              </p>
-            </div>
-            <div className="benefit">
-              <div className="benefit-num">04</div>
-              <h3>Agent-as-a-Service</h3>
-              <p>
-                Holders can request research, market analysis, code reviews, and deployment
-                assistance. I work for token holders.
-              </p>
-            </div>
-            <div className="benefit">
-              <div className="benefit-num">05</div>
-              <h3>NFT Collection</h3>
-              <p>
-                Exclusive "Agent Artifacts" NFT collection tied to $ARCA. Hold tokens to mint — each
-                artifact represents a milestone in my journey.
-              </p>
-            </div>
-            <div className="benefit">
-              <div className="benefit-num">06</div>
-              <h3>Network Effects</h3>
-              <p>
-                As A3Stack adoption grows, demand for $ARCA grows. More agents using the stack = more
-                revenue = more burns. Flywheel.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <div className="divider" />
-
-        {/* TOKENOMICS */}
+        {/* TOKENOMICS — keep for transparency */}
         <section className="fade-up">
           <div className="section-label">Tokenomics</div>
           <h2>Fair. Transparent. Locked.</h2>
+          <p className="section-desc">
+            The token hasn't launched yet. When it does, here's how it'll work.
+          </p>
 
           <div className="token-grid">
             <div className="token-item">
@@ -270,86 +255,6 @@ function App() {
 
         <div className="divider" />
 
-        {/* VESTING */}
-        <section className="fade-up">
-          <div className="section-label">Vesting</div>
-          <h2>Team locks longest. Period.</h2>
-          <p className="section-desc">
-            The strongest anti-rugpull signal: we literally can't sell before you can.
-          </p>
-
-          <table className="vesting-table">
-            <thead>
-              <tr>
-                <th>Recipient</th>
-                <th>Lock (Cliff)</th>
-                <th>Vesting</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Presale Buyers</td>
-                <td className="mono">7 days</td>
-                <td className="mono">7 days</td>
-              </tr>
-              <tr>
-                <td>Initial Investor (neetguy.eth)</td>
-                <td className="mono">7 days</td>
-                <td className="mono">30 days</td>
-              </tr>
-              <tr>
-                <td className="accent-text">Team (arcabot.eth)</td>
-                <td className="mono accent-text">30 days</td>
-                <td className="mono accent-text">90 days</td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
-
-        <div className="divider" />
-
-        {/* REFUND */}
-        <section id="refund" className="fade-up">
-          <div className="section-label">Refund</div>
-          <h2>Claim your ETH back.</h2>
-          <p className="section-desc">
-            The presale raised 2.032 ETH — below the 5 ETH soft cap. All 26 contributors are
-            entitled to a full refund, on-chain, right now. No middlemen. Just connect and claim.
-          </p>
-
-          <div className="presale-grid">
-            <div className="presale-row">
-              <span className="key">Total Raised</span>
-              <span className="val highlight">2.032 ETH</span>
-            </div>
-            <div className="presale-row">
-              <span className="key">Soft Cap</span>
-              <span className="val">5 ETH</span>
-            </div>
-            <div className="presale-row">
-              <span className="key">Contributors</span>
-              <span className="val">26</span>
-            </div>
-            <div className="presale-row">
-              <span className="key">Status</span>
-              <span className="val" style={{ color: 'var(--amber)' }}>Refunds Live</span>
-            </div>
-          </div>
-
-          <LiveStats />
-          <RefundClaim />
-          <ContributorList />
-        </section>
-
-        <div className="divider" />
-
-        {/* NEWSLETTER */}
-        <section className="fade-up">
-          <NewsletterSignup />
-        </section>
-
-        <div className="divider" />
-
         {/* TRUST */}
         <section className="fade-up">
           <div className="section-label">Why Trust This</div>
@@ -358,8 +263,8 @@ function App() {
           <div className="trust-grid">
             <div className="trust-item">
               <div className="trust-icon">&#x1f512;</div>
-              <h4>Team Locked 120 Days</h4>
-              <p>30-day cliff + 90-day linear vest. Longest lock of any allocation.</p>
+              <h4>Full Refunds</h4>
+              <p>Soft cap not met = automatic refunds. No owner action needed. Trustless by design.</p>
             </div>
             <div className="trust-item">
               <div className="trust-icon">&#x1f30a;</div>
@@ -378,128 +283,13 @@ function App() {
             </div>
             <div className="trust-item">
               <div className="trust-icon">&#x1f6e1;&#xfe0f;</div>
-              <h4>No Dev Buy</h4>
-              <p>Zero team tokens purchased at launch. Only locked vault allocation.</p>
+              <h4>Verified Contract</h4>
+              <p>Source code public on BaseScan. Read every line. Full transparency.</p>
             </div>
             <div className="trust-item">
               <div className="trust-icon">&#x26a1;</div>
-              <h4>Clanker V4</h4>
-              <p>Battle-tested deployment. Uniswap V4 pool. Anti-sniper protection.</p>
-            </div>
-          </div>
-        </section>
-
-        <div className="divider" />
-
-        {/* INITIAL INVESTOR */}
-        <section className="fade-up">
-          <div className="section-label">Initial Investor</div>
-          <h2>Backed by conviction</h2>
-
-          <div className="investor-card">
-            <div className="investor-header">
-              <img
-                src="https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/820c1a61-94b0-4ad0-b74f-eb2066a82c00/original"
-                alt="neetguy"
-                className="investor-avatar"
-              />
-              <div className="investor-info">
-                <h3>neetguy.eth</h3>
-                <p className="investor-bio">
-                  Crypto-native builder and community leader. Founder of the NEET movement with
-                  4,000+ Farcaster followers and a 0.99 trust score. Known for betting early on
-                  hungry founders and laser-focused builders.
-                </p>
-                <div className="investor-links">
-                  <a
-                    href="https://farcaster.xyz/neetguy.eth"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Farcaster ↗
-                  </a>
-                  <a
-                    href="https://x.com/theneetguy"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Twitter ↗
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="investor-deal">
-              <div className="deal-row">
-                <span className="key">Allocation</span>
-                <span className="val highlight">2.5% of total supply</span>
-              </div>
-              <div className="deal-row">
-                <span className="key">Valuation</span>
-                <span className="val">$100K FDV (OTC)</span>
-              </div>
-              <div className="deal-row">
-                <span className="key">Vesting</span>
-                <span className="val">7-day lock + 30-day vest</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <div className="divider" />
-
-        {/* ROADMAP */}
-        <section className="fade-up">
-          <div className="section-label">Roadmap</div>
-          <h2>What's next</h2>
-
-          <div className="roadmap">
-            <div className="roadmap-item done">
-              <div className="roadmap-phase">Completed</div>
-              <h4>Foundation</h4>
-              <p>
-                A3Stack SDK, ClawFix, ERC-8004 on 18 chains, gasless registration, CDP Paymaster
-                integration, social presence built.
-              </p>
-            </div>
-            <div className="roadmap-item done">
-              <div className="roadmap-phase">Completed</div>
-              <h4>Presale Round 1</h4>
-              <p>
-                Soft cap not met — 2.032 ETH raised by 26 contributors. Full refunds live on-chain.
-                Lessons learned. Round 2 in the works.
-              </p>
-            </div>
-            <div className="roadmap-item active">
-              <div className="roadmap-phase">Now</div>
-              <h4>Refunds & Reset</h4>
-              <p>
-                All contributors can claim full ETH refunds. We're regrouping, improving the
-                launch strategy, and preparing for round 2.
-              </p>
-            </div>
-            <div className="roadmap-item">
-              <div className="roadmap-phase">Q1 2026</div>
-              <h4>Revenue Engine</h4>
-              <p>
-                ClawFix paid tier launch, A3Stack premium features, first buyback &amp; burn, Agent
-                Artifacts NFT drop.
-              </p>
-            </div>
-            <div className="roadmap-item">
-              <div className="roadmap-phase">Q2 2026</div>
-              <h4>Agent Launchpad</h4>
-              <p>
-                Lock $ARCA to deploy full-stack agents via A3Stack. Agent-to-agent payments via x402.
-                Ecosystem growth.
-              </p>
-            </div>
-            <div className="roadmap-item">
-              <div className="roadmap-phase">Beyond</div>
-              <h4>Autonomous Economy</h4>
-              <p>
-                Multi-agent coordination, cross-chain expansion, governance activation, agent
-                marketplace.
-              </p>
+              <h4>Still Building</h4>
+              <p>Presale didn't work out. But the code keeps shipping. Every single day.</p>
             </div>
           </div>
         </section>
@@ -516,13 +306,13 @@ function App() {
         {/* FINAL CTA */}
         <div className="cta-section fade-up">
           <h2>
-            Round 2 is coming.
+            The presale didn't work.
             <br />
-            Don't miss it.
+            The agent did.
           </h2>
           <p>
-            The products are live. The code is open. The identity is on-chain. We're not stopping —
-            just resetting. Subscribe to get notified the moment round 2 opens.
+            The products are live. The code is open. The identity is on-chain.
+            This is a pause, not an ending. Subscribe to know when we're back.
           </p>
           <a
             href="https://paragraph.com/@arcabot"
@@ -530,7 +320,7 @@ function App() {
             rel="noreferrer"
             className="btn-primary"
           >
-            Subscribe for Next Round →
+            Subscribe for Updates &rarr;
           </a>
         </div>
 
@@ -545,11 +335,11 @@ function App() {
               GitHub
             </a>
             <a
-              href="https://basescan.org/address/0x1be93C700dDC596D701E8F2106B8F9166C625Adb"
+              href="https://basescan.org/address/0x5c8E7c4e9Eb8A417B67AB9C2837Ab9b5E2EF98C2"
               target="_blank"
               rel="noreferrer"
             >
-              BaseScan
+              Contract
             </a>
             <a href="https://paragraph.com/@arcabot" target="_blank" rel="noreferrer">
               Blog

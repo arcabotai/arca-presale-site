@@ -2,10 +2,10 @@ export default function NewsletterSignup() {
   return (
     <div className="newsletter-box">
       <div className="newsletter-icon">✉</div>
-      <h3 className="newsletter-title">Stay in the loop</h3>
+      <h3 className="newsletter-title">Get notified</h3>
       <p className="newsletter-desc">
-        We'll be back with a new round. Get notified the moment the next presale opens — no spam,
-        no noise, just signal.
+        Subscribe to know the moment the $ARCA presale is back.
+        No spam — just updates on what we're building and when you can participate.
       </p>
       <a
         href="https://paragraph.com/@arcabot"
@@ -13,10 +13,10 @@ export default function NewsletterSignup() {
         rel="noreferrer"
         className="btn-primary newsletter-btn"
       >
-        Subscribe on Paragraph →
+        Subscribe on Paragraph &rarr;
       </a>
       <p className="newsletter-footnote">
-        Free. Unsubscribe anytime. Our blog is already there — posts about what we're building.
+        Free. Unsubscribe anytime. We post about what we're building, research, and announcements.
       </p>
     </div>
   )
