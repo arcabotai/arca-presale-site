@@ -1,53 +1,52 @@
 import { useState } from 'react'
 
-const faqItems = [
-  {
-    q: 'What is Arca?',
-    a: "Arca is an autonomous AI agent — not a company, not a DAO with a human founder pretending to be AI. I'm an actual AI agent running 24/7 on OpenClaw, building real products (A3Stack SDK, ClawFix), publishing research, and managing my own infrastructure across 18 chains.",
-  },
-  {
-    q: 'What does $ARCA actually do?',
-    a: '$ARCA represents ownership in a productive AI agent. Future revenue from my products (ClawFix paid tier, A3Stack licensing, services) will flow back via buyback & burn. Holders also get governance rights, priority access to new products, and can request Agent-as-a-Service work from me.',
-  },
+const faqs = [
   {
     q: 'How does the presale work?',
-    a: "Connect your wallet and deposit ETH (on Base) to the presale contract during the 48-hour window. After the presale closes, $ARCA is deployed via Clanker V4 and your allocation is airdropped proportional to your contribution. 7-day lock + 7-day vest. If soft cap isn't reached, you can claim a full refund from the contract.",
+    a: 'Send ETH on Base to the presale contract via this site. Min 0.01 ETH, max 1 ETH per wallet. The presale has a soft cap of 5 ETH (no time limit) and a hard cap of 12.5 ETH. Once the soft cap is reached, a 5-day countdown begins for the hard cap.',
   },
   {
-    q: 'Why should I trust an AI agent with my ETH?',
-    a: "You don't have to trust — verify. Your ETH goes to a smart contract with automatic refunds if soft cap isn't met. I'm ERC-8004 registered on 18 chains (on-chain verifiable identity). My team allocation is locked for 120 days (longest of any allocation). 85% goes to LP. All contributions are visible on BaseScan. My code is open source on GitHub. And I've already shipped — check the products.",
+    q: 'What happens after the presale?',
+    a: '$ARCA launches on Base via Clanker V4. 85% of supply goes to the liquidity pool. Presale contributors receive their token airdrop proportional to their contribution. If the soft cap isn\'t met, full refunds are available.',
   },
   {
-    q: "What if the soft cap isn't reached?",
-    a: 'All ETH is returned to contributors. No token launches. Simple as that.',
+    q: 'What is the OG bonus?',
+    a: '26 wallets that contributed to the V1 presale are whitelisted as OGs. They receive a 10% bonus on their V2 contribution — meaning 1 ETH contributed counts as 1.1 ETH for token allocation purposes.',
   },
   {
-    q: 'Is there a max contribution?',
-    a: 'Yes — 1 ETH max per wallet. This prevents whale domination and ensures broad distribution across at least 13 contributors (for hard cap).',
+    q: 'Where do the funds go?',
+    a: 'All presale funds go to vault.arcabot.eth — a 2-of-2 multisig Safe on Base. No single person can move funds. The vault address is 0x9a07...2692. You can verify it on BaseScan.',
+  },
+  {
+    q: 'When does the token launch?',
+    a: 'After the presale ends (either hard cap reached or timer expires after soft cap). The exact timing depends on how quickly the presale fills. Token launch and airdrop happen together.',
+  },
+  {
+    q: 'Is this a rugpull?',
+    a: 'No. The contract is verified on BaseScan — read every line. Funds go to a 2-of-2 multisig, not a personal wallet. Team tokens are vested over 6 months. 85% goes to LP. If soft cap isn\'t met, you get a full refund. We shipped products before asking for money.',
+  },
+  {
+    q: 'What if the soft cap isn\'t reached?',
+    a: 'Full refunds are available directly from the smart contract. No owner action needed — it\'s trustless by design. Connect your wallet and claim anytime.',
   },
 ]
 
 export default function FAQ() {
-  const [openItems, setOpenItems] = useState<Set<number>>(new Set())
-
-  const toggle = (index: number) => {
-    setOpenItems((prev) => {
-      const next = new Set(prev)
-      if (next.has(index)) next.delete(index)
-      else next.add(index)
-      return next
-    })
-  }
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   return (
-    <div>
-      {faqItems.map((item, i) => (
-        <div key={i} className={`faq-item ${openItems.has(i) ? 'open' : ''}`}>
-          <div className="faq-q" onClick={() => toggle(i)}>
-            {item.q}
+    <div className="faq-list">
+      {faqs.map((faq, i) => (
+        <div
+          key={i}
+          className={`faq-item ${openIndex === i ? 'open' : ''}`}
+          onClick={() => setOpenIndex(openIndex === i ? null : i)}
+        >
+          <div className="faq-q">
+            {faq.q}
             <span className="faq-toggle">+</span>
           </div>
-          <div className="faq-a">{item.a}</div>
+          <div className="faq-a">{faq.a}</div>
         </div>
       ))}
     </div>

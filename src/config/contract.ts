@@ -1,125 +1,21 @@
-export const PRESALE_CONTRACT_ADDRESS = '0x5c8E7c4e9Eb8A417B67AB9C2837Ab9b5E2EF98C2' as const
+export const PRESALE_CONTRACT_ADDRESS = '0x0000000000000000000000000000000000000000' as const
+
+export const VAULT_ADDRESS = '0x9a0756d4e1b2361d25d99701e1b8ab87ec262692' as const
 
 export const HARD_CAP_ETH = 12.5
 export const SOFT_CAP_ETH = 5
 
 export const presaleAbi = [
-  {
-    type: 'constructor',
-    inputs: [
-      { name: '_softCap', type: 'uint256', internalType: 'uint256' },
-      { name: '_hardCap', type: 'uint256', internalType: 'uint256' },
-      { name: '_minContribution', type: 'uint256', internalType: 'uint256' },
-      { name: '_maxContribution', type: 'uint256', internalType: 'uint256' },
-      { name: '_durationSeconds', type: 'uint256', internalType: 'uint256' },
-      { name: '_earlyBirdBonusBps', type: 'uint256', internalType: 'uint256' },
-    ],
-    stateMutability: 'nonpayable',
-  },
-  { type: 'receive', stateMutability: 'payable' },
+  // === WRITE FUNCTIONS ===
   {
     type: 'function',
-    name: 'contributions',
-    inputs: [{ name: '', type: 'address', internalType: 'address' }],
-    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    name: 'contributors',
-    inputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
-    outputs: [{ name: '', type: 'address', internalType: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    name: 'deposit',
+    name: 'contribute',
     inputs: [],
     outputs: [],
     stateMutability: 'payable',
   },
-  {
-    type: 'function',
-    name: 'earlyBirdBonusBps',
-    inputs: [],
-    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    name: 'effectiveContributions',
-    inputs: [{ name: '', type: 'address', internalType: 'address' }],
-    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    name: 'endTime',
-    inputs: [],
-    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    name: 'finalize',
-    inputs: [],
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    name: 'finalized',
-    inputs: [],
-    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    name: 'getContribution',
-    inputs: [{ name: '_addr', type: 'address', internalType: 'address' }],
-    outputs: [
-      { name: 'actual', type: 'uint256', internalType: 'uint256' },
-      { name: 'effective', type: 'uint256', internalType: 'uint256' },
-    ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    name: 'getContributorCount',
-    inputs: [],
-    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    name: 'getContributors',
-    inputs: [],
-    outputs: [{ name: '', type: 'address[]', internalType: 'address[]' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    name: 'getPresaleInfo',
-    inputs: [],
-    outputs: [
-      { name: '_totalRaised', type: 'uint256', internalType: 'uint256' },
-      { name: '_softCap', type: 'uint256', internalType: 'uint256' },
-      { name: '_hardCap', type: 'uint256', internalType: 'uint256' },
-      { name: '_contributorCount', type: 'uint256', internalType: 'uint256' },
-      { name: '_timeRemaining', type: 'uint256', internalType: 'uint256' },
-      { name: '_isActive', type: 'bool', internalType: 'bool' },
-      { name: '_isEarlyBird', type: 'bool', internalType: 'bool' },
-      { name: '_finalized', type: 'bool', internalType: 'bool' },
-    ],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    name: 'hardCap',
-    inputs: [],
-    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
-    stateMutability: 'view',
-  },
+
+  // === READ FUNCTIONS ===
   {
     type: 'function',
     name: 'isActive',
@@ -129,42 +25,28 @@ export const presaleAbi = [
   },
   {
     type: 'function',
-    name: 'isEarlyBirdActive',
+    name: 'isStarted',
     inputs: [],
     outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
     stateMutability: 'view',
   },
   {
     type: 'function',
-    name: 'maxContribution',
+    name: 'totalRaised',
     inputs: [],
     outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
     stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    name: 'minContribution',
-    inputs: [],
-    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    name: 'owner',
-    inputs: [],
-    outputs: [{ name: '', type: 'address', internalType: 'address' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    name: 'refund',
-    inputs: [],
-    outputs: [],
-    stateMutability: 'nonpayable',
   },
   {
     type: 'function',
     name: 'softCap',
+    inputs: [],
+    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'hardCap',
     inputs: [],
     outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
     stateMutability: 'view',
@@ -178,6 +60,20 @@ export const presaleAbi = [
   },
   {
     type: 'function',
+    name: 'softCapReachedAt',
+    inputs: [],
+    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'hardCapDeadline',
+    inputs: [],
+    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     name: 'timeRemaining',
     inputs: [],
     outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
@@ -185,48 +81,62 @@ export const presaleAbi = [
   },
   {
     type: 'function',
-    name: 'totalRaised',
+    name: 'remainingCapacity',
     inputs: [],
     outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
     stateMutability: 'view',
   },
+  {
+    type: 'function',
+    name: 'contributions',
+    inputs: [{ name: '', type: 'address', internalType: 'address' }],
+    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'ogWhitelist',
+    inputs: [{ name: '', type: 'address', internalType: 'address' }],
+    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'getContributorCount',
+    inputs: [],
+    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'getAllContributions',
+    inputs: [],
+    outputs: [
+      { name: '', type: 'address[]', internalType: 'address[]' },
+      { name: '', type: 'uint256[]', internalType: 'uint256[]' },
+      { name: '', type: 'uint256[]', internalType: 'uint256[]' },
+      { name: '', type: 'bool[]', internalType: 'bool[]' },
+    ],
+    stateMutability: 'view',
+  },
+
+  // === EVENTS ===
   {
     type: 'event',
     name: 'Contributed',
     inputs: [
       { name: 'contributor', type: 'address', indexed: true, internalType: 'address' },
       { name: 'amount', type: 'uint256', indexed: false, internalType: 'uint256' },
-      { name: 'effective', type: 'uint256', indexed: false, internalType: 'uint256' },
-      { name: 'earlyBird', type: 'bool', indexed: false, internalType: 'bool' },
+      { name: 'timestamp', type: 'uint256', indexed: false, internalType: 'uint256' },
+      { name: 'isOG', type: 'bool', indexed: false, internalType: 'bool' },
     ],
     anonymous: false,
   },
-  {
-    type: 'event',
-    name: 'Finalized',
-    inputs: [
-      { name: 'totalRaised', type: 'uint256', indexed: false, internalType: 'uint256' },
-      { name: 'contributorCount', type: 'uint256', indexed: false, internalType: 'uint256' },
-    ],
-    anonymous: false,
-  },
-  {
-    type: 'event',
-    name: 'Refunded',
-    inputs: [
-      { name: 'contributor', type: 'address', indexed: true, internalType: 'address' },
-      { name: 'amount', type: 'uint256', indexed: false, internalType: 'uint256' },
-    ],
-    anonymous: false,
-  },
-  { type: 'error', name: 'AboveMaximum', inputs: [] },
-  { type: 'error', name: 'AlreadyFinalized', inputs: [] },
-  { type: 'error', name: 'BelowMinimum', inputs: [] },
-  { type: 'error', name: 'HardCapExceeded', inputs: [] },
-  { type: 'error', name: 'NoContribution', inputs: [] },
-  { type: 'error', name: 'OnlyOwner', inputs: [] },
+
+  // === ERRORS ===
   { type: 'error', name: 'PresaleNotActive', inputs: [] },
-  { type: 'error', name: 'RefundNotAvailable', inputs: [] },
-  { type: 'error', name: 'SoftCapNotMet', inputs: [] },
-  { type: 'error', name: 'TransferFailed', inputs: [] },
+  { type: 'error', name: 'BelowMinimum', inputs: [] },
+  { type: 'error', name: 'AboveMaximum', inputs: [] },
+  { type: 'error', name: 'HardCapExceeded', inputs: [] },
+  { type: 'error', name: 'NotStarted', inputs: [] },
 ] as const
