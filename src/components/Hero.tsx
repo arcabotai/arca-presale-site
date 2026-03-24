@@ -130,6 +130,20 @@ export default function Hero() {
           : 'Contribute ETH to the $ARCA presale on Base. OG wallets get a 10% bonus. Soft cap 5 ETH, hard cap 12.5 ETH.'}
       </p>
 
+      <div style={{
+        background: 'rgba(251,191,36,0.08)',
+        border: '1px solid rgba(251,191,36,0.2)',
+        borderRadius: '12px',
+        padding: '0.75rem 1rem',
+        marginTop: '0.75rem',
+        fontSize: '0.85rem',
+        color: '#fbbf24',
+        textAlign: 'center',
+        lineHeight: 1.5,
+      }}>
+        Every contributor will receive $ARCA tokens when the token launches. No time limit before soft cap — the presale stays open until 5 ETH is reached.
+      </div>
+
       {/* Countdown */}
       {countdown && (
         <div className="countdown">
