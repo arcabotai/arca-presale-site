@@ -23,7 +23,7 @@ const faqs = [
   },
   {
     q: 'Is this a rugpull?',
-    a: 'No. The contract is verified on BaseScan — read every line. Funds go to a 2-of-2 multisig, not a personal wallet. Team tokens are vested over 6 months. 85% goes to LP. ETH goes to a 2-of-2 multisig — no single person controls the funds. We shipped products before asking for money.',
+    a: 'No. The contract is verified on BaseScan — read every line. Funds go to a 2-of-2 multisig, not a personal wallet. Team locks longest: 30-day cliff + 90-day vest. 85% goes to LP. Funds go to a 2-of-2 multisig — no single person controls them. We shipped products before asking for money.',
   },
   {
     q: 'What if the soft cap isn\'t reached?',

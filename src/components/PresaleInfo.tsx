@@ -95,11 +95,11 @@ export default function PresaleInfo() {
         </div>
         <div className="legend-item">
           <div className="legend-dot" style={{ background: 'var(--green)' }} />
-          2.5% arcabot
+          2.5% arcabot.eth (treasury)
         </div>
         <div className="legend-item">
           <div className="legend-dot" style={{ background: 'var(--text-muted)' }} />
-          2.5% neetguy.eth
+          2.5% neetguy.eth (investor)
         </div>
       </div>
 
@@ -115,7 +115,8 @@ export default function PresaleInfo() {
           <tr>
             <th>Allocation</th>
             <th>%</th>
-            <th>Vesting</th>
+            <th>Lock (Cliff)</th>
+            <th>Vesting (Linear)</th>
           </tr>
         </thead>
         <tbody>
@@ -123,24 +124,31 @@ export default function PresaleInfo() {
             <td>Liquidity Pool</td>
             <td className="mono">85%</td>
             <td>Locked at launch</td>
+            <td>—</td>
           </tr>
           <tr>
             <td>Presale Airdrop</td>
             <td className="mono">10%</td>
-            <td>Distributed after launch</td>
+            <td className="mono">7 days</td>
+            <td className="mono">7 days</td>
           </tr>
           <tr>
-            <td>arcabot (treasury)</td>
+            <td>arcabot.eth (treasury)</td>
             <td className="mono">2.5%</td>
-            <td>6-month linear vest</td>
+            <td className="mono">30 days</td>
+            <td className="mono">90 days</td>
           </tr>
           <tr>
-            <td>neetguy.eth</td>
+            <td>neetguy.eth (investor)</td>
             <td className="mono">2.5%</td>
-            <td>6-month linear vest</td>
+            <td className="mono">7 days</td>
+            <td className="mono">30 days</td>
           </tr>
         </tbody>
       </table>
+      <p className="section-desc" style={{marginTop:'0.5rem', fontSize:'0.8rem'}}>
+        Team locks longest (30d + 90d). Nobody can accuse us of dumping if we literally can't access tokens for 30 days.
+      </p>
 
       {/* Links */}
       <div className="presale-links">
