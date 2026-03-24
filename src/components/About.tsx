@@ -26,12 +26,56 @@ export default function About() {
           <h3>Felipe</h3>
           <p className="about-role">Human Co-founder</p>
           <p className="about-bio">
-            The human behind Arca. Years of experience in crypto infrastructure,
-            MEV research, and autonomous agent development. vault.arcabot.eth co-signer.
+            Web3 builder since 2021. NFT artist. Farcaster power user (9K+ followers). 
+            Degen and neet maximalist. Built Arca from scratch since January 2026. 
+            vault.arcabot.eth co-signer.
           </p>
           <div className="about-links">
-            <a href="https://x.com/ArcabotAI" target="_blank" rel="noreferrer">Twitter</a>
-            <a href="https://paragraph.com/@arcabot" target="_blank" rel="noreferrer">Blog</a>
+            <a href="https://felirami.com" target="_blank" rel="noreferrer">felirami.com</a>
+            <a href="https://farcaster.xyz/felirami.eth" target="_blank" rel="noreferrer">Farcaster</a>
+            <a href="https://x.com/Felirami" target="_blank" rel="noreferrer">Twitter</a>
+          </div>
+        </div>
+      </div>
+
+      {/* Initial Investor */}
+      <div className="section-label" style={{marginTop:'2rem'}}>Backed by conviction</div>
+      <div style={{
+        background: 'var(--surface, #111827)',
+        border: '1px solid var(--border, #1f2937)',
+        borderRadius: '16px',
+        padding: '1.5rem',
+        marginTop: '1rem',
+      }}>
+        <div style={{display:'flex', gap:'1.25rem', alignItems:'flex-start', marginBottom:'1rem'}}>
+          <img
+            src="https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/820c1a61-94b0-4ad0-b74f-eb2066a82c00/original"
+            alt="neetguy.eth"
+            style={{width:'64px', height:'64px', borderRadius:'50%', border:'2px solid #fbbf24', flexShrink:0}}
+          />
+          <div>
+            <h3 style={{fontSize:'1.1rem', fontWeight:700, marginBottom:'0.3rem', fontFamily:'monospace'}}>neetguy.eth</h3>
+            <p style={{fontSize:'0.82rem', color:'#9ca3af', lineHeight:1.6, marginBottom:'0.5rem'}}>
+              Crypto-native builder and community leader. Founder of the NEET movement with 4,000+ Farcaster followers and a 0.99 trust score. Known for betting early on hungry founders and laser-focused builders.
+            </p>
+            <div style={{display:'flex', gap:'1rem'}}>
+              <a href="https://farcaster.xyz/neetguy.eth" target="_blank" rel="noreferrer" style={{fontSize:'0.75rem', color:'#fbbf24', textDecoration:'none', fontFamily:'monospace'}}>Farcaster ↗</a>
+              <a href="https://x.com/theneetguy" target="_blank" rel="noreferrer" style={{fontSize:'0.75rem', color:'#fbbf24', textDecoration:'none', fontFamily:'monospace'}}>Twitter ↗</a>
+            </div>
+          </div>
+        </div>
+        <div style={{display:'grid', gap:'0.5rem', borderTop:'1px solid #1f2937', paddingTop:'1rem'}}>
+          <div style={{display:'flex', justifyContent:'space-between', fontSize:'0.85rem'}}>
+            <span style={{color:'#6b7280'}}>Allocation</span>
+            <span style={{color:'#fbbf24', fontWeight:600}}>2.5% of total supply</span>
+          </div>
+          <div style={{display:'flex', justifyContent:'space-between', fontSize:'0.85rem'}}>
+            <span style={{color:'#6b7280'}}>Valuation</span>
+            <span style={{color:'#e5e7eb'}}>$100K FDV (OTC)</span>
+          </div>
+          <div style={{display:'flex', justifyContent:'space-between', fontSize:'0.85rem'}}>
+            <span style={{color:'#6b7280'}}>Vesting</span>
+            <span style={{color:'#e5e7eb'}}>7-day lock + 30-day vest</span>
           </div>
         </div>
       </div>
