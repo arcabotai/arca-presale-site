@@ -7,7 +7,7 @@ const faqs = [
   },
   {
     q: 'What happens after the presale?',
-    a: '$ARCA launches on Base via Clanker V4. 85% of supply goes to the liquidity pool. Presale contributors receive their token airdrop proportional to their contribution. If the soft cap isn\'t met, full refunds are available.',
+    a: '$ARCA launches on Base via Clanker V4. 85% of supply goes to the liquidity pool. Presale contributors receive their token airdrop proportional to their contribution. There are no refunds — ETH goes directly to the 2-of-2 multisig vault.',
   },
   {
     q: 'What is the OG bonus?',
@@ -23,11 +23,11 @@ const faqs = [
   },
   {
     q: 'Is this a rugpull?',
-    a: 'No. The contract is verified on BaseScan — read every line. Funds go to a 2-of-2 multisig, not a personal wallet. Team tokens are vested over 6 months. 85% goes to LP. If soft cap isn\'t met, you get a full refund. We shipped products before asking for money.',
+    a: 'No. The contract is verified on BaseScan — read every line. Funds go to a 2-of-2 multisig, not a personal wallet. Team tokens are vested over 6 months. 85% goes to LP. ETH goes to a 2-of-2 multisig — no single person controls the funds. We shipped products before asking for money.',
   },
   {
     q: 'What if the soft cap isn\'t reached?',
-    a: 'Full refunds are available directly from the smart contract. No owner action needed — it\'s trustless by design. Connect your wallet and claim anytime.',
+    a: 'The presale stays open with no time limit until soft cap is reached. There is no refund mechanism — all ETH goes directly to the multisig vault (vault.arcabot.eth). This is by design: funds are secured by 2-of-2 multisig from the moment you contribute.',
   },
 ]
 

@@ -13,7 +13,7 @@ export default function PresaleInfo() {
           <h3>Soft Cap: 5 ETH</h3>
           <p>
             No time limit until soft cap is reached. Once hit, a 5-day countdown to hard cap begins.
-            If soft cap isn't reached, full refunds are available.
+            All ETH is forwarded immediately to the multisig vault — there are no refunds.
           </p>
         </div>
         <div className="info-card">
