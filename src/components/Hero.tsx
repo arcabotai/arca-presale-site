@@ -11,8 +11,34 @@ function formatCountdown(seconds: number) {
   return { d, h, m, s }
 }
 
+function formatUsd(value: number): string {
+  if (value >= 1000) return `$${(value / 1000).toFixed(1)}k`
+  return `$${value.toFixed(0)}`
+}
+
+function useEthPrice() {
+  const [price, setPrice] = useState<number | null>(null)
+
+  useEffect(() => {
+    const fetchPrice = () => {
+      fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
+        .then((r) => r.json())
+        .then((data) => {
+          if (data?.ethereum?.usd) setPrice(data.ethereum.usd)
+        })
+        .catch(() => {})
+    }
+    fetchPrice()
+    const interval = setInterval(fetchPrice, 60_000)
+    return () => clearInterval(interval)
+  }, [])
+
+  return price
+}
+
 export default function Hero() {
   const [now, setNow] = useState(Math.floor(Date.now() / 1000))
+  const ethPrice = useEthPrice()
 
   useEffect(() => {
     const interval = setInterval(() => setNow(Math.floor(Date.now() / 1000)), 1000)
@@ -75,12 +101,22 @@ export default function Hero() {
     query: { refetchInterval: 10_000 },
   })
 
+  const { data: currentMultiplier } = useReadContract({
+    address: PRESALE_CONTRACT_ADDRESS,
+    abi: presaleAbi,
+    functionName: 'currentMultiplier',
+    query: { refetchInterval: 10_000 },
+  })
+
   const raised = totalRaised ? Number(formatEther(totalRaised)) : 0
   const progressPct = Math.min((raised / HARD_CAP_ETH) * 100, 100)
   const softCapPct = (SOFT_CAP_ETH / HARD_CAP_ETH) * 100
   const remaining = remainingCapacity ? Number(formatEther(remainingCapacity)) : HARD_CAP_ETH
   const contributors = contributorCount ? Number(contributorCount) : 0
   const softCapHit = softCapReachedAt ? Number(softCapReachedAt) > 0 : false
+
+  // Multiplier: contract returns value with 2 decimals (e.g. 142 = 1.42x)
+  const multiplier = currentMultiplier ? Number(currentMultiplier) / 100 : null
 
   // Countdown logic
   const startTimeSec = startTime ? Number(startTime) : 0
@@ -129,6 +165,13 @@ export default function Hero() {
           ? 'The presale hasn\'t started yet. Connect your wallet and get ready.'
           : 'Contribute ETH to the $ARCA presale on Base. OG wallets get a 10% bonus. Soft cap 5 ETH, hard cap 12.5 ETH.'}
       </p>
+
+      {/* Multiplier banner */}
+      {multiplier && multiplier > 1 && (
+        <div className="multiplier-banner">
+          Current multiplier: <span className="multiplier-value">{multiplier.toFixed(2)}x</span> — contribute now for more tokens
+        </div>
+      )}
 
       <div style={{
         background: 'rgba(251,191,36,0.08)',
@@ -189,8 +232,14 @@ export default function Hero() {
           </div>
         </div>
         <div className="progress-labels">
-          <span>{raised.toFixed(3)} ETH</span>
-          <span>{HARD_CAP_ETH} ETH</span>
+          <span>
+            {raised.toFixed(3)} ETH
+            {ethPrice ? ` (~${formatUsd(raised * ethPrice)})` : ''}
+          </span>
+          <span>
+            {HARD_CAP_ETH} ETH
+            {ethPrice ? ` (~${formatUsd(HARD_CAP_ETH * ethPrice)})` : ''}
+          </span>
         </div>
       </div>
 
@@ -199,6 +248,7 @@ export default function Hero() {
         <div className="stat-card">
           <div className="stat-value accent">{raised.toFixed(3)}</div>
           <div className="stat-label">ETH Raised</div>
+          {ethPrice && <div className="stat-usd">~{formatUsd(raised * ethPrice)}</div>}
         </div>
         <div className="stat-card">
           <div className="stat-value">{contributors}</div>
@@ -215,6 +265,7 @@ export default function Hero() {
         <div className="stat-card">
           <div className="stat-value">{remaining.toFixed(2)}</div>
           <div className="stat-label">ETH Remaining</div>
+          {ethPrice && <div className="stat-usd">~{formatUsd(remaining * ethPrice)}</div>}
         </div>
       </div>
 

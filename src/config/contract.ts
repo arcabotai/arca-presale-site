@@ -133,6 +133,37 @@ export const presaleAbi = [
     anonymous: false,
   },
 
+  // === V3 READ FUNCTIONS ===
+  {
+    type: 'function',
+    name: 'currentMultiplier',
+    inputs: [],
+    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'currentPriceInfo',
+    inputs: [],
+    outputs: [
+      { name: 'multiplier', type: 'uint256', internalType: 'uint256' },
+      { name: 'nextThreshold', type: 'uint256', internalType: 'uint256' },
+      { name: 'nextMultiplier', type: 'uint256', internalType: 'uint256' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'getContributionDetails',
+    inputs: [{ name: 'contributor', type: 'address', internalType: 'address' }],
+    outputs: [
+      { name: 'amount', type: 'uint256', internalType: 'uint256' },
+      { name: 'effectiveAmount', type: 'uint256', internalType: 'uint256' },
+      { name: 'isOG', type: 'bool', internalType: 'bool' },
+    ],
+    stateMutability: 'view',
+  },
+
   // === ERRORS ===
   { type: 'error', name: 'PresaleNotActive', inputs: [] },
   { type: 'error', name: 'BelowMinimum', inputs: [] },
