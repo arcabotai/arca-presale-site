@@ -314,8 +314,10 @@ h2 {
     display: flex; gap: 0.75rem; margin-bottom: 1.25rem;
 }
 .cross-dropdown {
-    flex: 1; position: relative;
+    position: relative;
 }
+.cross-dropdown-chain { flex: 3; }
+.cross-dropdown-token { flex: 2; }
 .cross-label {
     display: block;
     font-family: 'DM Mono', monospace; font-size: 0.65rem;
@@ -331,18 +333,62 @@ h2 {
     color: var(--text); font-family: 'DM Mono', monospace;
     font-size: 0.88rem; cursor: pointer; transition: border-color 0.2s;
     font-weight: 500;
+    min-width: 0;
+    overflow: hidden;
 }
 .cross-select-btn:hover { border-color: var(--text-muted); }
-.cross-select-icon { font-size: 1.1rem; }
-.cross-select-name { flex: 1; text-align: left; }
+.cross-select-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.cross-chain-icon {
+    width: 20px; height: 20px; border-radius: 50%;
+    object-fit: cover; flex-shrink: 0;
+}
+.cross-token-icon {
+    width: 18px; height: 18px; border-radius: 50%;
+    object-fit: cover; flex-shrink: 0;
+}
+.cross-select-name {
+    flex: 1; text-align: left;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
 .cross-select-arrow {
-    font-size: 0.6rem; color: var(--text-muted);
+    font-size: 0.6rem; color: var(--text-muted); flex-shrink: 0;
 }
 .cross-dropdown-menu {
     position: absolute; top: calc(100% + 4px); left: 0; right: 0;
     background: var(--surface); border: 1px solid var(--border);
     border-radius: 10px; overflow: hidden; z-index: 100;
     box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    min-width: 220px;
+}
+.cross-dropdown-searchable {
+    overflow: visible;
+}
+.cross-search-wrap {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+}
+.cross-search-input {
+    width: 100%; padding: 0.55rem 0.75rem;
+    border-radius: 8px; border: 1px solid var(--border);
+    background: var(--bg); color: var(--text);
+    font-family: 'DM Mono', monospace; font-size: 0.82rem;
+    outline: none; transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+.cross-search-input:focus { border-color: var(--accent); }
+.cross-search-input::placeholder { color: var(--text-muted); }
+.cross-dropdown-scroll {
+    max-height: 240px; overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+}
+.cross-dropdown-scroll::-webkit-scrollbar { width: 5px; }
+.cross-dropdown-scroll::-webkit-scrollbar-track { background: transparent; }
+.cross-dropdown-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.cross-dropdown-empty {
+    padding: 1.25rem 1rem; text-align: center;
+    font-size: 0.82rem; color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
 }
 .cross-dropdown-item {
     width: 100%;
@@ -359,11 +405,24 @@ h2 {
     color: var(--accent); background: var(--accent-soft);
 }
 .cross-connected-badge {
-    margin-left: auto;
+    margin-left: auto; flex-shrink: 0;
     font-size: 0.6rem; padding: 0.15rem 0.45rem;
     border-radius: 4px;
     background: var(--green-soft); color: var(--green);
     font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.cross-token-name {
+    margin-left: auto; flex-shrink: 0;
+    font-size: 0.72rem; color: var(--text-muted);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    max-width: 120px;
+}
+
+/* Responsive: stack chain+token on small screens */
+@media (max-width: 480px) {
+    .cross-selectors { flex-direction: column; gap: 0.5rem; }
+    .cross-dropdown-chain, .cross-dropdown-token { flex: none; width: 100%; }
+    .cross-dropdown-menu { min-width: 0; }
 }
 
 /* Quote display */

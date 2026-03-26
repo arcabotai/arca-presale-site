@@ -1,33 +1,28 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt, useSwitchChain, useSendTransaction } from 'wagmi'
-import { parseEther, formatEther, parseUnits, formatUnits, type Hex } from 'viem'
+import { parseEther, formatEther, parseUnits, type Hex } from 'viem'
 import { base } from 'wagmi/chains'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { PRESALE_CONTRACT_ADDRESS, presaleAbi } from '../config/contract'
 
-// ─── Chain & token data (hardcoded) ───
-interface Token {
-  symbol: string
-  address: string
-  decimals: number
-}
-interface Chain {
+// ─── Types ───
+interface RelayChain {
   id: number
   name: string
-  icon: string
-  tokens: Token[]
+  displayName: string
+  iconUrl?: string
+  depositEnabled: boolean
+  disabled?: boolean
 }
 
-const CHAINS: Chain[] = [
-  { id: 8453, name: 'Base', icon: '🔵', tokens: [{ symbol: 'ETH', address: '0x0000000000000000000000000000000000000000', decimals: 18 }, { symbol: 'USDC', address: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', decimals: 6 }] },
-  { id: 1, name: 'Ethereum', icon: '⟠', tokens: [{ symbol: 'ETH', address: '0x0000000000000000000000000000000000000000', decimals: 18 }, { symbol: 'USDC', address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', decimals: 6 }, { symbol: 'USDT', address: '0xdAC17F958D2ee523a2206206994597C13D831ec7', decimals: 6 }, { symbol: 'WETH', address: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', decimals: 18 }] },
-  { id: 42161, name: 'Arbitrum', icon: '🔷', tokens: [{ symbol: 'ETH', address: '0x0000000000000000000000000000000000000000', decimals: 18 }, { symbol: 'USDC', address: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831', decimals: 6 }, { symbol: 'ARB', address: '0x912CE59144191C1204E64559FE8253a0e49E6548', decimals: 18 }] },
-  { id: 10, name: 'Optimism', icon: '🔴', tokens: [{ symbol: 'ETH', address: '0x0000000000000000000000000000000000000000', decimals: 18 }, { symbol: 'USDC', address: '0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85', decimals: 6 }, { symbol: 'OP', address: '0x4200000000000000000000000000000000000042', decimals: 18 }] },
-  { id: 137, name: 'Polygon', icon: '🟣', tokens: [{ symbol: 'MATIC', address: '0x0000000000000000000000000000000000000000', decimals: 18 }, { symbol: 'USDC', address: '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359', decimals: 6 }] },
-  { id: 56, name: 'BSC', icon: '🟡', tokens: [{ symbol: 'BNB', address: '0x0000000000000000000000000000000000000000', decimals: 18 }, { symbol: 'USDC', address: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d', decimals: 18 }] },
-]
-
-const NATIVE_ZERO = '0x0000000000000000000000000000000000000000'
+interface RelayToken {
+  chainId: number
+  address: string
+  symbol: string
+  name: string
+  decimals: number
+  logoURI?: string
+}
 
 interface RelayQuote {
   steps: Array<{
@@ -47,15 +42,24 @@ interface RelayQuote {
   }
 }
 
+const NATIVE_ZERO = '0x0000000000000000000000000000000000000000'
+const RELAY_ICON_URL = (chainId: number) => `https://assets.relay.link/icons/${chainId}/light.png`
+
 export default function Contribute() {
   const { address, isConnected, chain } = useAccount()
   const { switchChain } = useSwitchChain()
   const [amount, setAmount] = useState('0.1')
   const [showSuccess, setShowSuccess] = useState(false)
 
+  // Dynamic chain/token data
+  const [relayChains, setRelayChains] = useState<RelayChain[]>([])
+  const [chainsLoading, setChainsLoading] = useState(true)
+  const [chainTokens, setChainTokens] = useState<RelayToken[]>([])
+  const [tokensLoading, setTokensLoading] = useState(false)
+
   // Cross-chain state
   const [selectedChainId, setSelectedChainId] = useState<number>(1)
-  const [selectedTokenIdx, setSelectedTokenIdx] = useState(0)
+  const [selectedTokenAddress, setSelectedTokenAddress] = useState<string>(NATIVE_ZERO)
   const [crossAmount, setCrossAmount] = useState('')
   const [quote, setQuote] = useState<RelayQuote | null>(null)
   const [quoteLoading, setQuoteLoading] = useState(false)
@@ -64,28 +68,117 @@ export default function Contribute() {
   const [crossTxHash, setCrossTxHash] = useState<string | null>(null)
   const [chainDropdownOpen, setChainDropdownOpen] = useState(false)
   const [tokenDropdownOpen, setTokenDropdownOpen] = useState(false)
+  const [chainSearch, setChainSearch] = useState('')
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const chainSearchRef = useRef<HTMLInputElement>(null)
 
   // Auto-detect connected chain → set default tab + chain selector
   const isBase = chain?.id === base.id
   const [mode, setMode] = useState<'base' | 'crosschain'>('base')
 
+  // ─── Fetch chains from Relay API on mount ───
+  useEffect(() => {
+    let cancelled = false
+    ;(async () => {
+      try {
+        const res = await fetch('https://api.relay.link/chains')
+        if (!res.ok) throw new Error('Failed to fetch chains')
+        const data = await res.json()
+        // data may be { chains: [...] } or just an array
+        const list: RelayChain[] = Array.isArray(data) ? data : (data.chains || [])
+        const active = list.filter((c: RelayChain) => c.depositEnabled !== false && c.disabled !== true)
+        if (!cancelled) {
+          setRelayChains(active)
+          setChainsLoading(false)
+        }
+      } catch {
+        // Fallback: at least show a few popular chains
+        if (!cancelled) {
+          setRelayChains([
+            { id: 1, name: 'Ethereum', displayName: 'Ethereum', depositEnabled: true },
+            { id: 42161, name: 'Arbitrum', displayName: 'Arbitrum', depositEnabled: true },
+            { id: 10, name: 'Optimism', displayName: 'Optimism', depositEnabled: true },
+            { id: 137, name: 'Polygon', displayName: 'Polygon', depositEnabled: true },
+            { id: 56, name: 'BNB Chain', displayName: 'BNB Chain', depositEnabled: true },
+          ])
+          setChainsLoading(false)
+        }
+      }
+    })()
+    return () => { cancelled = true }
+  }, [])
+
+  // ─── Fetch tokens when chain changes ───
+  useEffect(() => {
+    if (!selectedChainId) return
+    let cancelled = false
+    setTokensLoading(true)
+    setChainTokens([])
+    setSelectedTokenAddress(NATIVE_ZERO)
+    setQuote(null)
+    setQuoteError('')
+    ;(async () => {
+      try {
+        const res = await fetch(`https://api.relay.link/currencies/v1?chainId=${selectedChainId}&limit=10`)
+        if (!res.ok) throw new Error('Failed to fetch tokens')
+        const data = await res.json()
+        // data may be array or { currencies: [...] }
+        const tokens: RelayToken[] = Array.isArray(data) ? data : (data.currencies || [])
+        if (!cancelled) {
+          setChainTokens(tokens)
+          // Default to first token (usually native gas)
+          if (tokens.length > 0) {
+            setSelectedTokenAddress(tokens[0].address || NATIVE_ZERO)
+          }
+          setTokensLoading(false)
+        }
+      } catch {
+        if (!cancelled) {
+          // Fallback: show native token
+          setChainTokens([])
+          setTokensLoading(false)
+        }
+      }
+    })()
+    return () => { cancelled = true }
+  }, [selectedChainId])
+
+  // Auto-detect connected chain
   useEffect(() => {
     if (!chain) return
     if (chain.id === base.id) {
       setMode('base')
     } else {
       setMode('crosschain')
-      const match = CHAINS.find(c => c.id === chain.id)
+      // If user's chain is in the relay chains list, select it
+      const match = relayChains.find(c => c.id === chain.id)
       if (match) {
         setSelectedChainId(match.id)
-        setSelectedTokenIdx(0)
       }
     }
-  }, [chain])
+  }, [chain, relayChains])
 
-  const selectedChain = CHAINS.find(c => c.id === selectedChainId) || CHAINS[0]
-  const selectedToken = selectedChain.tokens[selectedTokenIdx] || selectedChain.tokens[0]
+  // Derived: selected chain + token objects
+  const selectedChain = useMemo(() =>
+    relayChains.find(c => c.id === selectedChainId) || relayChains[0],
+    [relayChains, selectedChainId]
+  )
+  const selectedToken = useMemo(() =>
+    chainTokens.find(t => t.address === selectedTokenAddress) || chainTokens[0],
+    [chainTokens, selectedTokenAddress]
+  )
+
+  // Filtered chains for searchable dropdown (exclude Base since that's the direct tab)
+  const filteredChains = useMemo(() => {
+    const nonBase = relayChains.filter(c => c.id !== 8453)
+    if (!chainSearch.trim()) return nonBase
+    const q = chainSearch.toLowerCase()
+    return nonBase.filter(c =>
+      (c.displayName || c.name).toLowerCase().includes(q)
+    )
+  }, [relayChains, chainSearch])
+
+  const chainCount = relayChains.filter(c => c.id !== 8453).length
 
   // ─── Base ETH contract reads ───
   const { data: isActive } = useReadContract({
@@ -150,7 +243,7 @@ export default function Contribute() {
 
   // ─── Relay quote fetching (debounced) ───
   const fetchQuote = useCallback(async (amt: string) => {
-    if (!address || !amt || Number(amt) <= 0) {
+    if (!address || !amt || Number(amt) <= 0 || !selectedToken) {
       setQuote(null)
       return
     }
@@ -202,13 +295,6 @@ export default function Contribute() {
     return () => { if (debounceRef.current) clearTimeout(debounceRef.current) }
   }, [crossAmount, fetchQuote])
 
-  // Reset token selection when chain changes
-  useEffect(() => {
-    setSelectedTokenIdx(0)
-    setQuote(null)
-    setQuoteError('')
-  }, [selectedChainId])
-
   // ─── Cross-chain contribute ───
   const handleCrossContribute = async () => {
     if (!quote || !quote.steps?.[0]?.items?.[0]?.data) return
@@ -256,12 +342,25 @@ export default function Contribute() {
   const tokenDropdownRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
-      if (chainDropdownRef.current && !chainDropdownRef.current.contains(e.target as Node)) setChainDropdownOpen(false)
+      if (chainDropdownRef.current && !chainDropdownRef.current.contains(e.target as Node)) {
+        setChainDropdownOpen(false)
+        setChainSearch('')
+      }
       if (tokenDropdownRef.current && !tokenDropdownRef.current.contains(e.target as Node)) setTokenDropdownOpen(false)
     }
     document.addEventListener('mousedown', handleClick)
     return () => document.removeEventListener('mousedown', handleClick)
   }, [])
+
+  // Focus search input when chain dropdown opens
+  useEffect(() => {
+    if (chainDropdownOpen && chainSearchRef.current) {
+      chainSearchRef.current.focus()
+    }
+  }, [chainDropdownOpen])
+
+  const chainDisplayName = selectedChain ? (selectedChain.displayName || selectedChain.name) : 'Select Chain'
+  const tokenDisplaySymbol = selectedToken ? selectedToken.symbol : 'Token'
 
   return (
     <section id="contribute" className="contribute-section">
@@ -285,7 +384,7 @@ export default function Contribute() {
           className={`contribute-tab ${mode === 'crosschain' ? 'active' : ''}`}
           onClick={() => setMode('crosschain')}
         >
-          Any Chain
+          Any Chain ({chainsLoading ? '...' : `${chainCount}+`})
         </button>
       </div>
 
@@ -402,7 +501,7 @@ export default function Contribute() {
             )}
           </>
         ) : (
-          /* === MODE 2: Custom Cross-chain via Relay API === */
+          /* === MODE 2: Cross-chain via Relay API (dynamic chains) === */
           <div className="crosschain-container">
             {!isConnected ? (
               <div className="connect-prompt">
@@ -418,63 +517,117 @@ export default function Contribute() {
                   Contribute from any chain. Relay bridges your tokens to ETH on Base in one transaction.
                 </div>
 
-                {/* Chain + Token selectors */}
+                {/* Chain + Token selectors row */}
                 <div className="cross-selectors">
-                  {/* Chain dropdown */}
-                  <div className="cross-dropdown" ref={chainDropdownRef}>
+                  {/* Chain dropdown (searchable) */}
+                  <div className="cross-dropdown cross-dropdown-chain" ref={chainDropdownRef}>
                     <label className="cross-label">Chain</label>
                     <button
                       className="cross-select-btn"
-                      onClick={() => { setChainDropdownOpen(!chainDropdownOpen); setTokenDropdownOpen(false) }}
+                      onClick={() => { setChainDropdownOpen(!chainDropdownOpen); setTokenDropdownOpen(false); setChainSearch('') }}
                     >
-                      <span className="cross-select-icon">{selectedChain.icon}</span>
-                      <span className="cross-select-name">{selectedChain.name}</span>
+                      {selectedChain && (
+                        <img
+                          src={RELAY_ICON_URL(selectedChain.id)}
+                          alt=""
+                          className="cross-chain-icon"
+                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+                        />
+                      )}
+                      <span className="cross-select-name">{chainDisplayName}</span>
                       <span className="cross-select-arrow">{chainDropdownOpen ? '▲' : '▼'}</span>
                     </button>
                     {chainDropdownOpen && (
-                      <div className="cross-dropdown-menu">
-                        {CHAINS.filter(c => c.id !== 8453).map(c => (
-                          <button
-                            key={c.id}
-                            className={`cross-dropdown-item ${c.id === selectedChainId ? 'active' : ''}`}
-                            onClick={() => {
-                              setSelectedChainId(c.id)
-                              setChainDropdownOpen(false)
-                            }}
-                          >
-                            <span className="cross-select-icon">{c.icon}</span>
-                            <span>{c.name}</span>
-                            {c.id === chain?.id && <span className="cross-connected-badge">Connected</span>}
-                          </button>
-                        ))}
+                      <div className="cross-dropdown-menu cross-dropdown-searchable">
+                        <div className="cross-search-wrap">
+                          <input
+                            ref={chainSearchRef}
+                            type="text"
+                            className="cross-search-input"
+                            placeholder="Search chains..."
+                            value={chainSearch}
+                            onChange={(e) => setChainSearch(e.target.value)}
+                            onClick={(e) => e.stopPropagation()}
+                          />
+                        </div>
+                        <div className="cross-dropdown-scroll">
+                          {chainsLoading ? (
+                            <div className="cross-dropdown-empty">Loading chains...</div>
+                          ) : filteredChains.length === 0 ? (
+                            <div className="cross-dropdown-empty">No chains found</div>
+                          ) : (
+                            filteredChains.map(c => (
+                              <button
+                                key={c.id}
+                                className={`cross-dropdown-item ${c.id === selectedChainId ? 'active' : ''}`}
+                                onClick={() => {
+                                  setSelectedChainId(c.id)
+                                  setChainDropdownOpen(false)
+                                  setChainSearch('')
+                                }}
+                              >
+                                <img
+                                  src={RELAY_ICON_URL(c.id)}
+                                  alt=""
+                                  className="cross-chain-icon"
+                                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+                                />
+                                <span>{c.displayName || c.name}</span>
+                                {c.id === chain?.id && <span className="cross-connected-badge">Connected</span>}
+                              </button>
+                            ))
+                          )}
+                        </div>
                       </div>
                     )}
                   </div>
 
                   {/* Token dropdown */}
-                  <div className="cross-dropdown" ref={tokenDropdownRef}>
+                  <div className="cross-dropdown cross-dropdown-token" ref={tokenDropdownRef}>
                     <label className="cross-label">Token</label>
                     <button
                       className="cross-select-btn"
                       onClick={() => { setTokenDropdownOpen(!tokenDropdownOpen); setChainDropdownOpen(false) }}
+                      disabled={tokensLoading || chainTokens.length === 0}
                     >
-                      <span className="cross-select-name">{selectedToken.symbol}</span>
+                      {selectedToken?.logoURI && (
+                        <img
+                          src={selectedToken.logoURI}
+                          alt=""
+                          className="cross-token-icon"
+                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+                        />
+                      )}
+                      <span className="cross-select-name">
+                        {tokensLoading ? '...' : tokenDisplaySymbol}
+                      </span>
                       <span className="cross-select-arrow">{tokenDropdownOpen ? '▲' : '▼'}</span>
                     </button>
                     {tokenDropdownOpen && (
                       <div className="cross-dropdown-menu">
-                        {selectedChain.tokens.map((t, i) => (
-                          <button
-                            key={t.symbol}
-                            className={`cross-dropdown-item ${i === selectedTokenIdx ? 'active' : ''}`}
-                            onClick={() => {
-                              setSelectedTokenIdx(i)
-                              setTokenDropdownOpen(false)
-                            }}
-                          >
-                            <span>{t.symbol}</span>
-                          </button>
-                        ))}
+                        <div className="cross-dropdown-scroll">
+                          {chainTokens.map(t => (
+                            <button
+                              key={`${t.address}-${t.symbol}`}
+                              className={`cross-dropdown-item ${t.address === selectedTokenAddress ? 'active' : ''}`}
+                              onClick={() => {
+                                setSelectedTokenAddress(t.address)
+                                setTokenDropdownOpen(false)
+                              }}
+                            >
+                              {t.logoURI && (
+                                <img
+                                  src={t.logoURI}
+                                  alt=""
+                                  className="cross-token-icon"
+                                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+                                />
+                              )}
+                              <span>{t.symbol}</span>
+                              <span className="cross-token-name">{t.name}</span>
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     )}
                   </div>
@@ -493,7 +646,7 @@ export default function Contribute() {
                       step="any"
                       disabled={crossTxPending}
                     />
-                    <span className="eth-suffix">{selectedToken.symbol}</span>
+                    <span className="eth-suffix">{tokenDisplaySymbol}</span>
                   </div>
 
                   {/* Quote display */}
@@ -512,7 +665,7 @@ export default function Contribute() {
                       <div className="cross-quote-row">
                         <span className="cross-quote-label">You send</span>
                         <span className="cross-quote-value">
-                          {quote.details.currencyIn.amountFormatted} {quote.details.currencyIn.currency.symbol} on {selectedChain.name}
+                          {quote.details.currencyIn.amountFormatted} {quote.details.currencyIn.currency.symbol} on {chainDisplayName}
                         </span>
                       </div>
                       <div className="cross-quote-arrow-row">→</div>
@@ -533,7 +686,7 @@ export default function Contribute() {
                   {/* Switch chain prompt if needed */}
                   {chain?.id !== selectedChainId && quote && (
                     <div className="cross-switch-notice">
-                      You're on {chain?.name || 'unknown'}. Click below to switch to {selectedChain.name} and contribute.
+                      You're on {chain?.name || 'unknown'}. Click below to switch to {chainDisplayName} and contribute.
                     </div>
                   )}
 
@@ -548,8 +701,8 @@ export default function Contribute() {
                       : crossTxHash
                         ? 'Submitted!'
                         : chain?.id !== selectedChainId
-                          ? `Switch to ${selectedChain.name}`
-                          : `Contribute via ${selectedChain.name}`}
+                          ? `Switch to ${chainDisplayName}`
+                          : `Contribute via ${chainDisplayName}`}
                   </button>
                 </div>
 
