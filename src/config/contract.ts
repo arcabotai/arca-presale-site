@@ -102,6 +102,20 @@ export const presaleAbi = [
   },
   {
     type: 'function',
+  {
+    type: "function",
+    name: "totalContributed",
+    inputs: [{ name: "", type: "address", internalType: "address" }],
+    outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "currentMultiplier",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+    stateMutability: "view",
+  },
     name: 'getContributorCount',
     inputs: [],
     outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
