@@ -171,13 +171,7 @@ export const presaleAbi = [
     outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
     stateMutability: 'view',
   },
-  {
-    type: 'function',
-    name: 'currentMultiplier',
-    inputs: [],
-    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
-    stateMutability: 'view',
-  },
+
   // === ERRORS ===
   { type: 'error', name: 'PresaleNotActive', inputs: [] },
   { type: 'error', name: 'BelowMinimum', inputs: [] },

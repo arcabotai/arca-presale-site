@@ -1,13 +1,19 @@
 import { useState, useEffect } from 'react'
-import { useAccount, useChainId, useReadContract, useWriteContract, useWaitForTransactionReceipt, useSendTransaction } from 'wagmi'
+import { useAccount, useChainId, useBalance, useSwitchChain, useReadContract, useWriteContract, useWaitForTransactionReceipt, useSendTransaction } from 'wagmi'
 import { parseEther, formatEther } from 'viem'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { PRESALE_CONTRACT_ADDRESS, presaleAbi } from '../config/contract'
 
-const CHAIN_NAMES: Record<number, string> = {
-  8453: 'Base', 1: 'Ethereum', 42161: 'Arbitrum', 10: 'Optimism',
-  137: 'Polygon', 56: 'BSC', 43114: 'Avalanche', 324: 'zkSync',
-}
+const CHAINS = [
+  { id: 8453, name: 'Base', icon: '🔵' },
+  { id: 1, name: 'Ethereum', icon: '⟠' },
+  { id: 42161, name: 'Arbitrum', icon: '🔷' },
+  { id: 10, name: 'Optimism', icon: '🔴' },
+  { id: 137, name: 'Polygon', icon: '🟣' },
+  { id: 56, name: 'BSC', icon: '🟡' },
+]
+
+const CHAIN_NAMES: Record<number, string> = Object.fromEntries(CHAINS.map(c => [c.id, c.name]))
 
 function formatTokens(wei: bigint): string {
   const n = Number(wei) / 1e18
@@ -23,8 +29,15 @@ export default function Contribute() {
   const [relayQuote, setRelayQuote] = useState<any>(null)
   const [quoteLoading, setQuoteLoading] = useState(false)
 
+  const [showChainPicker, setShowChainPicker] = useState(false)
+  const { switchChain } = useSwitchChain()
+  const { data: balance } = useBalance({ address })
+
   const isOnBase = chainId === 8453
   const chainName = CHAIN_NAMES[chainId] || `Chain ${chainId}`
+  const currentChain = CHAINS.find(c => c.id === chainId)
+  const balanceFormatted = balance ? parseFloat(formatEther(balance.value)).toFixed(4) : '0'
+  const balanceSymbol = balance?.symbol || 'ETH'
 
   // Contract reads
   const { data: currentMult } = useReadContract({
@@ -170,18 +183,53 @@ export default function Contribute() {
         maxWidth: '480px',
         margin: '0 auto',
       }}>
-        {/* Chain status */}
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: '0.5rem',
-          marginBottom: '1rem', fontSize: '0.85rem',
-        }}>
-          <span style={{
-            display: 'inline-block', width: 8, height: 8, borderRadius: '50%',
-            background: isOnBase ? '#10b981' : '#f59e0b',
-          }} />
-          <span style={{ color: '#9ca3af' }}>
-            {isOnBase ? `You're on Base — zero bridge fees ✓` : `You're on ${chainName} — bridge fee ~0.1%`}
-          </span>
+        {/* Chain selector + balance */}
+        <div style={{ position: 'relative', marginBottom: '1rem' }}>
+          <button onClick={() => setShowChainPicker(!showChainPicker)} style={{
+            width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            padding: '0.6rem 0.75rem', background: '#0a0f18', border: '1px solid #1f2937',
+            borderRadius: '10px', cursor: 'pointer', color: '#e5e7eb',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span style={{
+                display: 'inline-block', width: 8, height: 8, borderRadius: '50%',
+                background: isOnBase ? '#10b981' : '#f59e0b',
+              }} />
+              <span style={{ fontSize: '0.85rem' }}>
+                {currentChain?.icon || '⛓'} {chainName}
+                {isOnBase ? ' — zero fees ✓' : ' — bridge ~0.1%'}
+              </span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{ fontSize: '0.8rem', color: '#9ca3af', fontFamily: 'monospace' }}>
+                {balanceFormatted} {balanceSymbol}
+              </span>
+              <span style={{ fontSize: '0.7rem', color: '#6b7280' }}>▼</span>
+            </div>
+          </button>
+
+          {showChainPicker && (
+            <div style={{
+              position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 50,
+              background: '#111827', border: '1px solid #1f2937', borderRadius: '10px',
+              marginTop: '4px', overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+            }}>
+              {CHAINS.map((c) => (
+                <button key={c.id} onClick={() => {
+                  if (c.id !== chainId) switchChain?.({ chainId: c.id })
+                  setShowChainPicker(false)
+                }} style={{
+                  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '0.6rem 0.75rem', background: c.id === chainId ? '#1f2937' : 'transparent',
+                  border: 'none', cursor: 'pointer', color: '#e5e7eb', fontSize: '0.85rem',
+                  borderBottom: '1px solid #1f2937',
+                }}>
+                  <span>{c.icon} {c.name} {c.id === 8453 && '(zero fees)'}</span>
+                  {c.id === chainId && <span style={{ color: '#10b981', fontSize: '0.75rem' }}>connected</span>}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* OG badge */}
