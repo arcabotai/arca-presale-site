@@ -298,10 +298,6 @@ h2 {
     line-height: 1.6;
     margin-bottom: 1.25rem;
 }
-.relay-widget-wrapper {
-    margin: 0 auto;
-    max-width: 420px;
-}
 .crosschain-fee-warning {
     margin-top: 1rem;
     padding: 0.65rem 1rem;
@@ -311,6 +307,102 @@ h2 {
     font-size: 0.78rem;
     color: var(--text-muted);
     line-height: 1.5;
+}
+
+/* Cross-chain selectors row */
+.cross-selectors {
+    display: flex; gap: 0.75rem; margin-bottom: 1.25rem;
+}
+.cross-dropdown {
+    flex: 1; position: relative;
+}
+.cross-label {
+    display: block;
+    font-family: 'DM Mono', monospace; font-size: 0.65rem;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 500;
+    text-align: left;
+}
+.cross-select-btn {
+    width: 100%;
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.75rem 1rem; border-radius: 10px;
+    background: var(--bg); border: 1px solid var(--border);
+    color: var(--text); font-family: 'DM Mono', monospace;
+    font-size: 0.88rem; cursor: pointer; transition: border-color 0.2s;
+    font-weight: 500;
+}
+.cross-select-btn:hover { border-color: var(--text-muted); }
+.cross-select-icon { font-size: 1.1rem; }
+.cross-select-name { flex: 1; text-align: left; }
+.cross-select-arrow {
+    font-size: 0.6rem; color: var(--text-muted);
+}
+.cross-dropdown-menu {
+    position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden; z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.cross-dropdown-item {
+    width: 100%;
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.7rem 1rem; border: none;
+    background: transparent; color: var(--text-dim);
+    font-family: 'DM Mono', monospace; font-size: 0.85rem;
+    cursor: pointer; transition: all 0.15s; text-align: left;
+}
+.cross-dropdown-item:hover {
+    background: var(--surface-hover); color: var(--text);
+}
+.cross-dropdown-item.active {
+    color: var(--accent); background: var(--accent-soft);
+}
+.cross-connected-badge {
+    margin-left: auto;
+    font-size: 0.6rem; padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    background: var(--green-soft); color: var(--green);
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+}
+
+/* Quote display */
+.cross-quote-box {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1rem;
+    text-align: left;
+}
+.cross-quote-loading {
+    font-family: 'DM Mono', monospace; font-size: 0.82rem;
+    color: var(--text-muted); display: block; text-align: center;
+}
+.cross-quote-row {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.85rem;
+}
+.cross-quote-label {
+    color: var(--text-muted); font-size: 0.78rem;
+}
+.cross-quote-value {
+    font-family: 'DM Mono', monospace; font-weight: 500;
+    color: var(--text);
+}
+.cross-quote-value.accent { color: var(--accent); }
+.cross-quote-arrow-row {
+    text-align: center; color: var(--text-muted);
+    font-size: 0.9rem; padding: 0.25rem 0;
+}
+.cross-quote-fee {
+    margin-top: 0.5rem; padding-top: 0.5rem;
+    border-top: 1px solid var(--border);
+    font-family: 'DM Mono', monospace; font-size: 0.72rem;
+    color: var(--text-muted);
+}
+.cross-switch-notice {
+    font-size: 0.82rem; color: var(--amber);
+    margin-bottom: 0.75rem; padding: 0.6rem 1rem;
+    background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.15);
+    border-radius: 8px;
 }
 
 /* === CONTRIBUTE SECTION === */
