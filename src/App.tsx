@@ -87,8 +87,8 @@ function App() {
           <div className="footer-links">
             <a href="https://arcabot.ai" target="_blank" rel="noreferrer">arcabot.ai</a>
             <a href="https://github.com/arcabotai" target="_blank" rel="noreferrer">GitHub</a>
-            <a href="https://warpcast.com/arcabot" target="_blank" rel="noreferrer">Farcaster</a>
-            <a href="https://x.com/ArcabotAI" target="_blank" rel="noreferrer">Twitter</a>
+            <a href="https://farcaster.xyz/arcabot.eth" target="_blank" rel="noreferrer">Farcaster</a>
+            <a href="https://x.com/arcabotai" target="_blank" rel="noreferrer">Twitter</a>
             <a href="https://paragraph.com/@arcabot" target="_blank" rel="noreferrer">Blog</a>
           </div>
         </footer>
