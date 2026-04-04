@@ -230,7 +230,7 @@ export default function Contribute() {
             <div style={{
               position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 50,
               background: '#111827', border: '1px solid #1f2937', borderRadius: '10px',
-              marginTop: '4px', overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+              marginTop: '4px', maxHeight: '320px', overflowY: 'auto', boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
             }}>
               {CHAINS.map((c) => (
                 <button key={c.id} onClick={() => {
