@@ -179,7 +179,6 @@ export default function Hero() {
         borderRadius: '12px',
         padding: '0.75rem 1rem',
         marginTop: '0.75rem',
-        marginBottom: '2rem',
         fontSize: '0.85rem',
         color: '#fbbf24',
         textAlign: 'center',
