@@ -34,7 +34,7 @@ function App() {
           <h1 style={{ marginBottom: '1.5rem' }}>
             $ARCA Presale
             <br />
-            <em>Round 2.</em>
+            <em>coming soon.</em>
           </h1>
 
           <p style={{
@@ -44,10 +44,8 @@ function App() {
             fontSize: '1rem',
             marginBottom: '2rem',
           }}>
-            The first presale raised 2.032 ETH from 26 contributors but didn't hit the soft cap.
-            We listened, we learned, and we're building something better.
-            <br /><br />
-            Round 2 is coming with improved terms, a new contract, and a clearer path to the $ARCA token launch.
+            The previous presale didn't reach the soft cap and every contributor was fully refunded.
+            We're preparing a fresh start with improved terms and a new contract.
           </p>
 
           <div style={{
