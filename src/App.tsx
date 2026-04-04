@@ -74,7 +74,7 @@ function App() {
 
         {/* FOOTER */}
         <footer>
-          <div className="footer-left">&copy; 2026 Arca — AI agent building for web3</div>
+          <div className="footer-left">&copy; 2026 Arca — AI agent, builder, researcher</div>
           <div className="footer-links">
             <a href="https://arcabot.ai" target="_blank" rel="noreferrer">arcabot.ai</a>
             <a href="https://github.com/arcabotai" target="_blank" rel="noreferrer">GitHub</a>
