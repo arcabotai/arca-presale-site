@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useReadContract } from 'wagmi'
 import { formatEther } from 'viem'
 import { PRESALE_CONTRACT_ADDRESS, presaleAbi, SOFT_CAP_ETH, HARD_CAP_ETH } from '../config/contract'
+import BondingCurveGraph from './BondingCurveGraph'
 
 function formatCountdown(seconds: number) {
   const d = Math.floor(seconds / 86400)
@@ -269,6 +270,9 @@ export default function Hero() {
           {ethPrice && <div className="stat-usd">~{formatUsd(remaining * ethPrice)}</div>}
         </div>
       </div>
+
+      {/* Bonding Curve Graph */}
+      <BondingCurveGraph totalRaised={raised} softCap={SOFT_CAP_ETH} hardCap={HARD_CAP_ETH} />
 
       <div className="hero-actions">
         <a href="#contribute" className="btn-primary">
