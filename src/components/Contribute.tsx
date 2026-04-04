@@ -5,12 +5,30 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { PRESALE_CONTRACT_ADDRESS, presaleAbi } from '../config/contract'
 
 const CHAINS = [
+  // Primary
   { id: 8453, name: 'Base', icon: '🔵' },
   { id: 1, name: 'Ethereum', icon: '⟠' },
   { id: 42161, name: 'Arbitrum', icon: '🔷' },
   { id: 10, name: 'Optimism', icon: '🔴' },
+  // L2s & Rollups
+  { id: 324, name: 'zkSync', icon: '🔹' },
+  { id: 59144, name: 'Linea', icon: '🟢' },
+  { id: 534352, name: 'Scroll', icon: '📜' },
+  { id: 81457, name: 'Blast', icon: '💥' },
+  { id: 34443, name: 'Mode', icon: '🟨' },
+  { id: 7777777, name: 'Zora', icon: '🌀' },
+  { id: 5000, name: 'Mantle', icon: '🔲' },
+  { id: 43114, name: 'Avalanche', icon: '🔺' },
+  // Alt L1s
   { id: 137, name: 'Polygon', icon: '🟣' },
   { id: 56, name: 'BSC', icon: '🟡' },
+  { id: 146, name: 'Sonic', icon: '⚡' },
+  { id: 80094, name: 'Berachain', icon: '🐻' },
+  // More L2s
+  { id: 130, name: 'Unichain', icon: '🦄' },
+  { id: 480, name: 'World Chain', icon: '🌍' },
+  { id: 690, name: 'Redstone', icon: '🟥' },
+  { id: 7560, name: 'Cyber', icon: '🌐' },
 ]
 
 const CHAIN_NAMES: Record<number, string> = Object.fromEntries(CHAINS.map(c => [c.id, c.name]))
