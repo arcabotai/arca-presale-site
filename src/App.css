@@ -159,15 +159,16 @@ h1 em { font-style: italic; color: var(--accent); }
     box-shadow: 0 0 12px rgba(251,191,36,0.3);
 }
 .soft-cap-marker {
-    position: absolute; top: -8px; bottom: -8px;
+    position: absolute; top: -6px; bottom: -6px;
     width: 2px; background: var(--blue);
-    transform: translateX(-50%);
+    transform: translateX(-50%); z-index: 2;
 }
 .soft-cap-marker span {
-    position: absolute; top: -22px; left: 50%;
+    position: absolute; bottom: calc(100% + 6px); left: 50%;
     transform: translateX(-50%); white-space: nowrap;
     font-family: 'DM Mono', monospace; font-size: 0.6rem;
     color: var(--blue); font-weight: 500;
+    pointer-events: none;
 }
 .progress-labels {
     display: flex; justify-content: space-between; margin-top: 0.5rem;
