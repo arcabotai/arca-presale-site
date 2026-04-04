@@ -1,32 +1,4 @@
-import { useEffect } from 'react'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
-import Hero from './components/Hero'
-import Contribute from './components/Contribute'
-import ActivityFeed from './components/ActivityFeed'
-import PresaleInfo from './components/PresaleInfo'
-import OGChecker from './components/OGChecker'
-import About from './components/About'
-import FAQ from './components/FAQ'
-import { PRESALE_CONTRACT_ADDRESS, VAULT_ADDRESS } from './config/contract'
-
 function App() {
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible')
-          }
-        })
-      },
-      { threshold: 0.1 },
-    )
-
-    document.querySelectorAll('.fade-up').forEach((el) => observer.observe(el))
-
-    return () => observer.disconnect()
-  }, [])
-
   return (
     <>
       <div className="grain" />
@@ -40,45 +12,66 @@ function App() {
             <span>$ARCA</span>
           </a>
           <div className="nav-right">
-            <ConnectButton showBalance={false} />
+            <a href="https://arcabot.ai" style={{ color: 'var(--text-dim)', textDecoration: 'none', fontSize: '0.85rem' }}>arcabot.ai</a>
           </div>
         </nav>
 
-        {/* HERO — countdown + progress + stats */}
-        <Hero />
+        {/* COMING SOON */}
+        <section style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '60vh',
+          textAlign: 'center',
+          padding: '2rem',
+        }}>
+          <div className="hero-label" style={{ marginBottom: '1.5rem' }}>
+            <span className="dot" />
+            Coming Soon
+          </div>
 
-        <div className="divider" />
+          <h1 style={{ marginBottom: '1.5rem' }}>
+            $ARCA Presale
+            <br />
+            <em>Round 2.</em>
+          </h1>
 
-        {/* CONTRIBUTE — wallet connect + deposit */}
-        <Contribute />
+          <p style={{
+            color: 'var(--text-dim)',
+            maxWidth: '480px',
+            lineHeight: 1.7,
+            fontSize: '1rem',
+            marginBottom: '2rem',
+          }}>
+            The first presale raised 2.032 ETH from 26 contributors but didn't hit the soft cap.
+            We listened, we learned, and we're building something better.
+            <br /><br />
+            Round 2 is coming with improved terms, a new contract, and a clearer path to the $ARCA token launch.
+          </p>
 
-        <div className="divider" />
+          <div style={{
+            background: 'rgba(251,191,36,0.08)',
+            border: '1px solid rgba(251,191,36,0.2)',
+            borderRadius: '12px',
+            padding: '1rem 1.5rem',
+            maxWidth: '420px',
+            fontSize: '0.85rem',
+            color: '#fbbf24',
+            lineHeight: 1.6,
+            marginBottom: '2.5rem',
+          }}>
+            All Round 1 contributors were fully refunded. No funds were kept.
+          </div>
 
-        {/* LIVE ACTIVITY FEED */}
-        <ActivityFeed />
-
-        <div className="divider" />
-
-        {/* PRESALE INFO — caps, tokenomics, vesting */}
-        <PresaleInfo />
-
-        <div className="divider" />
-
-        {/* OG WHITELIST CHECKER */}
-        <OGChecker />
-
-        <div className="divider" />
-
-        {/* ABOUT — team + track record */}
-        <About />
-
-        <div className="divider" />
-
-        {/* FAQ */}
-        <section className="fade-up">
-          <div className="section-label">FAQ</div>
-          <h2>Questions</h2>
-          <FAQ />
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <a href="https://arcabot.ai" className="btn-primary">
+              Learn About Arca &rarr;
+            </a>
+            <a href="https://paragraph.com/@arcabot" className="btn-secondary">
+              Read the Blog &rarr;
+            </a>
+          </div>
         </section>
 
         {/* FOOTER */}
@@ -92,16 +85,6 @@ function App() {
             <a href="https://paragraph.com/@arcabot" target="_blank" rel="noreferrer">Blog</a>
           </div>
         </footer>
-        <div className="footer-contract">
-          Contract:{' '}
-          <a href={`https://basescan.org/address/${PRESALE_CONTRACT_ADDRESS}`} target="_blank" rel="noreferrer">
-            {PRESALE_CONTRACT_ADDRESS}
-          </a>
-          {' '} | Vault:{' '}
-          <a href={`https://basescan.org/address/${VAULT_ADDRESS}`} target="_blank" rel="noreferrer">
-            vault.arcabot.eth
-          </a>
-        </div>
       </div>
     </>
   )
