@@ -1,5 +1,5 @@
 import { getDefaultConfig } from '@rainbow-me/rainbowkit'
-import { base, mainnet, arbitrum, optimism, polygon, bsc, zkSync, linea, scroll, blast, mode, zora, mantle, avalanche, sonic, berachain, worldchain, redstone, cyber } from 'wagmi/chains'
+import { baseSepolia, base, mainnet, arbitrum, optimism, polygon, bsc, zkSync, linea, scroll, blast, mode, zora, mantle, avalanche, sonic, berachain, worldchain, redstone, cyber } from 'wagmi/chains'
 import { defineChain } from 'viem'
 
 const unichain = defineChain({
@@ -16,7 +16,7 @@ export const config = getDefaultConfig({
   appName: '$ARCA Presale',
   projectId,
   chains: [
-    base, mainnet, arbitrum, optimism,
+    baseSepolia, base, mainnet, arbitrum, optimism,
     zkSync, linea, scroll, blast, mode, zora, mantle, avalanche,
     polygon, bsc, sonic, berachain,
     unichain, worldchain, redstone, cyber,
