@@ -5,3 +5,6 @@ dist/
 .env.local
 *.local
 .vercel
+
+# Private presale strategy docs live in ../arca-presale-strategy and must not be committed here
+PRESALE-*.md
